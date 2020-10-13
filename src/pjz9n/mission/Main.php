@@ -115,8 +115,8 @@ class Main extends PluginBase
         $localePath = $this->getFile() . "resources/locale/";
         LanguageHolder::init($localePath, "jpn", $this->getConfig());
         $this->getLogger()->info(LanguageHolder::get()->translateString("language.selected", [
-            $this->getServer()->getLanguage()->getName(),
-            $this->getServer()->getLanguage()->getLang(),
+            LanguageHolder::get()->getName(),
+            LanguageHolder::get()->getLang(),
         ]));
         //Config Defaults
         if ($this->getConfig()->get("missioncomplete-message") === "") {
