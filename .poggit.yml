@@ -4,7 +4,7 @@ branches:
   - master
 projects:
   Mission:
-    lib:
+    libs:
       - src: dktapps-pm-pl/pmforms/pmforms
         version: 1.0.0
       - src: pjz9n-pm-pl/pmforms-addon/pmforms-addon
