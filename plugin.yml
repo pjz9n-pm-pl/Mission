@@ -1,4 +1,15 @@
 name: Mission
 version: 1.0.0
 main: pjz9n\mission\Main
-api: 3.0.0
+api: 3.4.0
+
+softdepend:
+  - Mineflow
+
+permissions:
+  mission.command.mission:
+    default: true
+  mission.command.mission.edit:
+    default: op
+  mission.command.mission.setting:
+    default: op
