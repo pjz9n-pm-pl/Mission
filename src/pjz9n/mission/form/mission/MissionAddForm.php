@@ -45,8 +45,8 @@ class MissionAddForm extends AbstractCustomForm
             [
                 new Input("name", LanguageHolder::get()->translateString("mission.name")),
                 new Input("detail", LanguageHolder::get()->translateString("mission.detail")),
-                new Input("loopCount", LanguageHolder::get()->translateString("mission.maxachievementcount")),
-                new Input("targetStep", LanguageHolder::get()->translateString("mission.targetstep")),
+                new Input("loopCount", LanguageHolder::get()->translateString("mission.maxachievementcount"), "", "1"),
+                new Input("targetStep", LanguageHolder::get()->translateString("mission.targetstep"), "", "1"),
                 new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
             ]
         );
