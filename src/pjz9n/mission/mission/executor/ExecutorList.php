@@ -69,8 +69,8 @@ final class ExecutorList implements StaticArraySerializable
 
     public static function serializeToArray(): array
     {
-        /** @var Executor[] $executors */
         return array_values(array_map(function (array $executors): array {
+            /** @var Executor[] $executors */
             return array_values(array_map(function (Executor $executor): array {
                 return $executor->arraySerialize();
             }, $executors));

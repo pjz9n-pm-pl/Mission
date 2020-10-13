@@ -122,8 +122,8 @@ final class ProgressList implements StaticArraySerializable
 
     public static function serializeToArray(): array
     {
-        /** @var Progress[] $progresses */
         return array_map(function (array $progresses): array {
+            /** @var Progress[] $progresses */
             return array_values(array_map(function (Progress $progress): array {
                 return $progress->arraySerialize();
             }, $progresses));

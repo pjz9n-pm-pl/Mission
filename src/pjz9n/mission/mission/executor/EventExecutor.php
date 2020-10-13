@@ -226,12 +226,8 @@ class EventExecutor extends Executor implements Listener
      */
     public function getSettingFormElements(): array
     {
-        $nowEventClassForView = ($nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailableEvents()) ?? 0) === null
-            ? ""
-            : "("
-            . LanguageHolder::get()->translateString("nowvalue")
-            . ": " . $this->getEventClass()
-            . ")";
+        $nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailableEvents()) ?? 0;
+        $nowEventClassForView = "(" . LanguageHolder::get()->translateString("nowvalue") . ": " . $this->getEventClass() . ")";
         return [
             new Dropdown(
                 "eventClass",
