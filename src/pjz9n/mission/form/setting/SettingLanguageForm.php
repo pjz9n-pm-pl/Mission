@@ -61,8 +61,7 @@ class SettingLanguageForm extends AbstractMenuForm
             return;
         }
         $selectedLanguage = array_keys($this->availableLanguages)[$selectedOption - 1];
-        LanguageHolder::getConfig()->set("language", $selectedLanguage);
-        LanguageHolder::update();
+        LanguageHolder::setLanguage($selectedLanguage);
         $player->sendForm(new MessageForm(LanguageHolder::get()->translateString("language.selected", [
             LanguageHolder::get()->getName(),
             LanguageHolder::get()->getLang(),

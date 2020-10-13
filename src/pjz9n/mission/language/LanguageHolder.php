@@ -55,7 +55,7 @@ final class LanguageHolder
 
     public static function update(): void
     {
-        $language = ($lang = self::getConfig()->get("language", "default")) === "default"
+        $language = ($lang = self::getLanguage()) === "default"
             ? Server::getInstance()->getLanguage()->getLang() : $lang;
         self::$lang = new BaseLang($language, self::getLocalePath(), self::getFallbackLanguage());
         self::updateMineflowLanguage();
@@ -97,7 +97,18 @@ final class LanguageHolder
         return self::$fallbackLanguage;
     }
 
-    public static function getConfig(): Config
+    public static function getLanguage(): string
+    {
+        return (string)self::getConfig()->get("language");
+    }
+
+    public static function setLanguage(string $language): void
+    {
+        self::getConfig()->set("language", $language);
+        self::update();
+    }
+
+    private static function getConfig(): Config
     {
         if (self::$config === null) throw new InvalidStateException("Not initialized");
         return self::$config;
