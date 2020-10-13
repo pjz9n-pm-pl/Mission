@@ -52,12 +52,17 @@ class SettingMissionCompleteMessageForm extends AbstractCustomForm
                     LanguageHolder::get()->translateString("message"),
                     "",
                     (string)Main::getInstance()->getConfig()->get("missioncomplete-message")),
+                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
             ]
         );
     }
 
     public function onSubmit(Player $player, CustomFormResponse $response): void
     {
+        if ($response->getBool("cancel")) {
+            $player->sendForm(new SettingForm());
+            return;
+        }
         Main::getInstance()->getConfig()->set("send-missioncomplete-message", $response->getBool("enabled"));
         Main::getInstance()->getConfig()->set("missioncomplete-message", $response->getString("message"));
         $player->sendForm(new MessageForm(LanguageHolder::get()->translateString("setting.success"), new SettingForm()));
