@@ -58,7 +58,11 @@ final class LanguageHolder
         $language = ($lang = self::getConfig()->get("language", "default")) === "default"
             ? Server::getInstance()->getLanguage()->getLang() : $lang;
         self::$lang = new BaseLang($language, self::getLocalePath(), self::getFallbackLanguage());
-        //Mineflow
+        self::updateMineflowLanguage();
+    }
+
+    public static function updateMineflowLanguage(): void
+    {
         Language::add([
             "trigger.type.missionreward" => LanguageHolder::get()->translateString("mineflow.trigger.type.missionreward"),
             "trigger.type.missionreward.unknown" => LanguageHolder::get()->translateString("mineflow.trigger.type.missionreward.unknown"),

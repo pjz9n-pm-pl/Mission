@@ -39,6 +39,7 @@ use pjz9n\mission\listener\SendMessageListener;
 use pjz9n\mission\listener\SyncProgressListener;
 use pjz9n\mission\mineflow\category\CategoryIds;
 use pjz9n\mission\mineflow\flowitem\action\AddMissionStep;
+use pjz9n\mission\mineflow\listener\MineflowLanguageCommandListener;
 use pjz9n\mission\mineflow\listener\ReplaceFormUUID;
 use pjz9n\mission\mineflow\trigger\event\MissionCompleteEventTrigger;
 use pjz9n\mission\mineflow\trigger\event\RewardReceiveEventTrigger;
@@ -139,8 +140,10 @@ class Main extends PluginBase
         ExecutorList::initFromArray($this->executorsConfig->getAll());
         //Listener
         $this->getServer()->getPluginManager()->registerEvents(new SyncProgressListener(), $this);
-        $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new SendMessageListener($this->getConfig()), $this);
+        //Mineflow related listener
+        $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new MineflowLanguageCommandListener(), $this);
         //Command
         $this->getServer()->getCommandMap()->register($this->getName(), new MissionCommand($this));
         //Mineflow
