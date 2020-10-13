@@ -23,9 +23,11 @@ declare(strict_types=1);
 
 namespace pjz9n\mission;
 
+use aieuo\mineflow\flowItem\FlowItemFactory;
 use aieuo\mineflow\Main as MFMain;
 use aieuo\mineflow\trigger\event\EventTriggerList;
 use aieuo\mineflow\trigger\Triggers;
+use aieuo\mineflow\utils\Category;
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use InvalidStateException;
@@ -35,6 +37,8 @@ use pjz9n\mission\event\RewardReceiveEvent;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\listener\SendMessageListener;
 use pjz9n\mission\listener\SyncProgressListener;
+use pjz9n\mission\mineflow\category\CategoryIds;
+use pjz9n\mission\mineflow\flowitem\action\AddMissionStep;
 use pjz9n\mission\mineflow\listener\ReplaceFormUUID;
 use pjz9n\mission\mineflow\trigger\event\MissionCompleteEventTrigger;
 use pjz9n\mission\mineflow\trigger\event\RewardReceiveEventTrigger;
@@ -88,6 +92,8 @@ class Main extends PluginBase
         );
         EventTriggerList::add(new MissionCompleteEventTrigger());
         EventTriggerList::add(new RewardReceiveEventTrigger());
+        Category::addCategory(CategoryIds::MISSION);
+        FlowItemFactory::register(new AddMissionStep());
     }
 
     /**

@@ -66,6 +66,12 @@ final class LanguageHolder
             "trigger.missionreward.select.dropdown" => LanguageHolder::get()->translateString("mineflow.trigger.missionreward.select.dropdown"),
             "trigger.event." . MissionCompleteEvent::class => LanguageHolder::get()->translateString("mineflow.trigger.event." . MissionCompleteEvent::class),
             "trigger.event." . RewardReceiveEvent::class => LanguageHolder::get()->translateString("mineflow.trigger.event." . RewardReceiveEvent::class),
+            "category.mission" => LanguageHolder::get()->translateString("mineflow.category.mission"),
+            "action.addMissionStep.name" => LanguageHolder::get()->translateString("mineflow.action.addMissionStep.name"),
+            "action.addMissionStep.detail" => LanguageHolder::get()->translateString("mineflow.action.addMissionStep.detail"),
+            "action.addMissionStep.mission.notFound" => LanguageHolder::get()->translateString("mineflow.action.addMissionStep.mission.notFound"),
+            "action.addMissionStep.form.mission" => LanguageHolder::get()->translateString("mineflow.action.addMissionStep.form.mission"),
+            "action.addMissionStep.form.step" => LanguageHolder::get()->translateString("mineflow.action.addMissionStep.form.step"),
         ]);
     }
 
