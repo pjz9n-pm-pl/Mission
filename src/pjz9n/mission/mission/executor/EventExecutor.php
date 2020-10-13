@@ -25,6 +25,7 @@ namespace pjz9n\mission\mission\executor;
 
 use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Dropdown;
+use dktapps\pmforms\element\Label;
 use dktapps\pmforms\element\StepSlider;
 use dktapps\pmforms\element\Toggle;
 use InvalidStateException;
@@ -57,6 +58,10 @@ class EventExecutor extends Executor implements Listener
     public static function getCreateFormElements(): array
     {
         return [
+            new Label(
+                "tips",
+                LanguageHolder::get()->translateString("executor.eventexecutor.selectevent.tips")
+            ),
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event"),
@@ -229,6 +234,10 @@ class EventExecutor extends Executor implements Listener
         $nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailableEvents()) ?? 0;
         $nowEventClassForView = "(" . LanguageHolder::get()->translateString("nowvalue") . ": " . $this->getEventClass() . ")";
         return [
+            new Label(
+                "tips",
+                LanguageHolder::get()->translateString("executor.eventexecutor.selectevent.tips")
+            ),
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event") . $nowEventClassForView,
