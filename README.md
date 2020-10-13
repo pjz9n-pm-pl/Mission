@@ -11,7 +11,7 @@ Select language:
 
 ![screenshot_20201014_043615](https://user-images.githubusercontent.com/38120936/95907726-f2a51680-0dd6-11eb-919e-57c77d82a4e6.png)
 
-![screenshot_20201014_043651](https://user-images.githubusercontent.com/38120936/95907729-f33dad00-0dd6-11eb-8fd1-20e1b6478ac7.png)
+![screenshot_20201014_081521](https://user-images.githubusercontent.com/38120936/95926075-54c14400-0df6-11eb-9dbb-2ef5206f958c.png)
 
 ### コマンド
 
