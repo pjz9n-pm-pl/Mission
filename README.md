@@ -99,7 +99,7 @@ Select language:
 pjz9n\mission\reward\Rewards::add(ExampleReward::class);
 ```
 
-### ステップトリガーの種類を追加する
+#### ステップトリガーの種類を追加する
 
 1. Executorを継承したクラスを作成する(実装例は既存Executorを参照)
 2. そのクラスをExecutorsに追加
@@ -108,11 +108,11 @@ pjz9n\mission\reward\Rewards::add(ExampleReward::class);
 pjz9n\mission\mission\executor\Executors::add(ExampleExecutor::class);
 ```
 
-### Missionを操作
+#### Missionを操作
 
 `pjz9n\mission\mission\MissionList`
 
-### Progressを操作
+#### Progressを操作
 
 `pjz9n\mission\mission\progress\ProgressList`
 
