@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\util;
 
+use InvalidArgumentException;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\reward\Reward;
@@ -31,6 +32,7 @@ use pocketmine\event\EventPriority;
 use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\Utils as PMUtils;
 use Throwable;
 use TypeError;
 
@@ -115,6 +117,11 @@ final class Utils
         $result = [];
         foreach (get_declared_classes() as $declaredClass) {
             if (is_a($declaredClass, Event::class, true)) {
+                try {
+                    PMUtils::testValidInstance($declaredClass, Event::class);
+                } catch (InvalidArgumentException $exception) {
+                    continue;
+                }
                 $result[] = $declaredClass;
             }
         }
