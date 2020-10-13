@@ -45,7 +45,7 @@ class RewardListForm extends AbstractMenuForm
         $options = [];
         $options[] = new MenuOption(LanguageHolder::get()->translateString("reward.edit.add"));
         foreach ($this->rewards as $reward) {
-            $options[] = new MenuOption($reward->getDetail());
+            $options[] = new MenuOption($reward::getType() . ": " . $reward->getDetail());
         }
         $options[] = new MenuOption(LanguageHolder::get()->translateString("ui.back"));
         parent::__construct(
