@@ -4,6 +4,7 @@ branches:
   - master
 projects:
   Mission:
+    icon: icon.png
     libs:
       - src: dktapps-pm-pl/pmforms/pmforms
         version: 1.0.0
