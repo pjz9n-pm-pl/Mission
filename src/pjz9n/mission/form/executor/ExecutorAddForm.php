@@ -48,7 +48,7 @@ class ExecutorAddForm extends AbstractCustomForm
     {
         /** @var Executor $executorType for ide */
         parent::__construct(
-            LanguageHolder::get()->translateString("executor.edit.add"),
+            LanguageHolder::get()->translateString("executor.edit.add") . " > " . $executorType::getType(),
             array_merge($executorType::getCreateFormElements(), [
                 Elements::getCancellToggle(),
             ])

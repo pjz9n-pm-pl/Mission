@@ -45,7 +45,7 @@ class RewardEditForm extends AbstractCustomForm
     public function __construct(Mission $mission, Reward $reward)
     {
         parent::__construct(
-            LanguageHolder::get()->translateString("reward.edit.setting"),
+            LanguageHolder::get()->translateString("reward.edit.setting") . " > " . $reward::getType() . ": " . $reward->getDetail(),
             array_merge($reward->getSettingFormElements(), [
                 Elements::getCancellToggle(),
             ])

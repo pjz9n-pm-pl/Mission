@@ -48,7 +48,7 @@ class RewardAddForm extends AbstractCustomForm
     {
         /** @var Reward $rewardType for ide */
         parent::__construct(
-            LanguageHolder::get()->translateString("reward.edit.add"),
+            LanguageHolder::get()->translateString("reward.edit.add") . " > " . $rewardType::getType(),
             array_merge($rewardType::getCreateFormElements(), [
                 Elements::getCancellToggle(),
             ])

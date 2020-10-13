@@ -39,10 +39,13 @@ class ExecutorSettingForm extends AbstractCustomForm
     /** @var Executor */
     private $executor;
 
+    /**
+     * @throws ReflectionException
+     */
     public function __construct(Executor $executor)
     {
         parent::__construct(
-            LanguageHolder::get()->translateString("executor.edit.setting"),
+            LanguageHolder::get()->translateString("executor.edit.setting") . " > " . $executor->getDetail(),
             array_merge(
                 $executor->getSettingFormElements(), [
                     Elements::getCancellToggle(),
