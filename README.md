@@ -2,6 +2,7 @@
 
 Select language:
 [日本語](#日本語)
+[English](#English)
 
 ## 日本語
 
@@ -140,3 +141,141 @@ pjz9n\mission\mission\executor\Executors::add(ExampleExecutor::class);
 詳しくはソースコードを参照してください
 
 ※各操作のタイミングは問いません(基本的にはプラグイン有効化タイミングに行うのが望ましい)
+
+## English
+
+### Operation example
+
+![screenshot_20201014_081341](https://user-images.githubusercontent.com/38120936/95926122-76223000-0df6-11eb-9ceb-df3c16f0e492.png)
+
+![screenshot_20201014_081406](https://user-images.githubusercontent.com/38120936/95926124-77535d00-0df6-11eb-9035-ce567a7414a8.png)
+
+![screenshot_20201014_081449](https://user-images.githubusercontent.com/38120936/95926126-77ebf380-0df6-11eb-908f-aee93834cd52.png)
+
+### Command
+
+| command name | description | permission | alias | player only |
+| --- | --- | --- | --- | --- |
+| mission | Open the mission list form | mission.command.mission | mi | Yes |
+
+#### Sub command (/mission)
+
+| sub command name | description | permission | alias | player only |
+| --- | --- | --- | --- | --- |
+| edit | Edit mission | mission.command.mission.edit | None | Yes |
+| setting | Settings | mission.command.mission.setting | set, config | Yes |
+
+### Permission
+
+| permission name | default |
+| --- | --- |
+| mission.command.mission | true 
+| mission.command.mission.edit | op |
+| mission.command.mission.setting | op |
+
+### Usage
+
+#### Item description
+
+- Maximum number of achievements: Number of times you can complete a mission
+- Target step: Target number of steps
+- Steptrigger: Trigger to increase mission steps
+
+#### Mission creation example
+
+- Achieved after breaking blocks 10 times
+- The reward is 10 diamonds
+- Can be achieved up to once
+
+1. Execute command: `/mission edit`
+2. Select "Add mission"
+3. Input the 1 to "Maximum number of achievements" and 10 to "Target step"
+4. Select the created mission
+5. Select "Edit reward"
+6. Select "Add reward"
+7. Specify "Item reward" for "Reward type"
+8. Input the 264(Diamond ID) to "ID" and 10 to "Amount"
+9. Select "Edit steptrigger"
+10. Select "Add steptrigger"
+11. Specify "Event" for "Steptrigger type"
+12. Specify "BlockBreakEvent" for "Event"
+
+If it looks like this, it ’s a success.
+
+![screenshot_20201014_081717](https://user-images.githubusercontent.com/38120936/95926177-95b95880-0df6-11eb-8d9f-9fba8f28c170.png)
+
+### Cooperation with Mineflow plugin
+
+#### Create reward with recipe
+
+1. Add "Mineflow reward" by referring to [Mission creation example](#Mission creation example)
+2. Select "MissionReward" with the trigger on the Mineflow plugin side and specify the target mission
+
+##### Examples
+
+- Recipe
+
+![screenshot_20201014_081807](https://user-images.githubusercontent.com/38120936/95926212-b2ee2700-0df6-11eb-9eff-8cc81fb38c53.png)
+
+- Mission
+
+![screenshot_20201014_081952](https://user-images.githubusercontent.com/38120936/95926215-b41f5400-0df6-11eb-84c3-cc81d027e6a3.png)
+
+![screenshot_20201014_082017](https://user-images.githubusercontent.com/38120936/95926217-b41f5400-0df6-11eb-95b5-b73d30d4dd7f.png)
+
+![screenshot_20201014_082029](https://user-images.githubusercontent.com/38120936/95926219-b4b7ea80-0df6-11eb-9c9b-88fcab4d5f97.png)
+
+##### Tips
+
+- The variable "target" can be used in Mineflow recipes triggered by mission rewards
+- Even if you want to create multiple recipe rewards, please limit the number of "Mineflow reward" to one
+- If you want to create multiple rewards based on recipes and want to display the second and subsequent rewards, you can use "Nothing (text show only)"
+
+#### Use the recipe as a Steptrigger
+
+1. Open the action addition screen on the Mineflow plugin side and select "Mission", "Increase the mission step" to add
+
+##### Examples
+
+![screenshot_20201014_082129](https://user-images.githubusercontent.com/38120936/95926271-d1542280-0df6-11eb-9e26-8203aa272c0f.png)
+
+##### Tips
+
+- No setting is required on the mission side
+- By combining conditional expressions on the recipe side, it is possible to make fairly flexible settings
+
+### Cooperation with external plugins (for developers)
+
+#### Prerequisites
+
+- Add this plugin to depend in plugin.yml
+
+#### Add reward type
+
+1. Create a class that inherits Reward (see existing Reward for implementation example)
+2. Add that class to Reward
+
+```php
+pjz9n\mission\reward\Rewards::add(ExampleReward::class);
+```
+
+#### Add Steptrigger type
+
+1. Create a class that inherits Executor (see existing Executor for implementation example)
+2. Add that class to Executor
+
+```php
+pjz9n\mission\mission\executor\Executors::add(ExampleExecutor::class);
+```
+
+#### Operate Mission
+
+`pjz9n\mission\mission\MissionList`
+
+#### Operate Progress
+
+`pjz9n\mission\mission\progress\ProgressList`
+
+See the source code for details
+
+\* The timing of each operation does not matter (basically, it is desirable to perform it at the plug-in activation timing)
