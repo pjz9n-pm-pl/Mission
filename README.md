@@ -5,6 +5,14 @@ Select language:
 
 ## 日本語
 
+### 動作例
+
+![screenshot_20201014_043559](https://user-images.githubusercontent.com/38120936/95907721-f173e980-0dd6-11eb-8431-06a0604f94bb.png)
+
+![screenshot_20201014_043615](https://user-images.githubusercontent.com/38120936/95907726-f2a51680-0dd6-11eb-919e-57c77d82a4e6.png)
+
+![screenshot_20201014_043651](https://user-images.githubusercontent.com/38120936/95907729-f33dad00-0dd6-11eb-8fd1-20e1b6478ac7.png)
+
 ### コマンド
 
 | コマンド名 | 説明 | 権限 | エイリアス | プレイヤーのみ |
