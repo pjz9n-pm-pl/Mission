@@ -47,7 +47,7 @@ class ItemReward extends Reward
     {
         return array_merge(parent::getCreateFormElements(), [
             new Input("id", LanguageHolder::get()->translateString("id")),
-            new Input("meta", LanguageHolder::get()->translateString("meta")),
+            new Input("meta", LanguageHolder::get()->translateString("meta"), "", "0"),
             new Input("amount", LanguageHolder::get()->translateString("amount")),
             new Toggle("autodetail", LanguageHolder::get()->translateString("reward.itemreward.autodetail"), true),
         ]);
