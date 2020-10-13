@@ -25,7 +25,7 @@ namespace pjz9n\mission\form\mission;
 
 use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Input;
-use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
@@ -49,7 +49,7 @@ class MissionEditForm extends AbstractCustomForm
                 new Input("detail", LanguageHolder::get()->translateString("mission.detail"), "", $mission->getDetail()),
                 new Input("loopCount", LanguageHolder::get()->translateString("mission.maxachievementcount"), "", (string)$mission->getLoopCount()),
                 new Input("targetStep", LanguageHolder::get()->translateString("mission.targetstep"), "", (string)$mission->getTargetStep()),
-                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                Elements::getCancellToggle(),
             ]
         );
         $this->mission = $mission;

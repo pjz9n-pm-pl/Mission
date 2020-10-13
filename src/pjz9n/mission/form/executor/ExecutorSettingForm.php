@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace pjz9n\mission\form\executor;
 
 use dktapps\pmforms\CustomFormResponse;
-use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
@@ -45,7 +45,7 @@ class ExecutorSettingForm extends AbstractCustomForm
             LanguageHolder::get()->translateString("executor.edit.setting"),
             array_merge(
                 $executor->getSettingFormElements(), [
-                    new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                    Elements::getCancellToggle(),
                 ]
             )
         );

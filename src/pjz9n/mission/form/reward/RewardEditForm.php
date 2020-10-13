@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace pjz9n\mission\form\reward;
 
 use dktapps\pmforms\CustomFormResponse;
-use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
@@ -47,7 +47,7 @@ class RewardEditForm extends AbstractCustomForm
         parent::__construct(
             LanguageHolder::get()->translateString("reward.edit.setting"),
             array_merge($reward->getSettingFormElements(), [
-                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                Elements::getCancellToggle(),
             ])
         );
         $this->mission = $mission;

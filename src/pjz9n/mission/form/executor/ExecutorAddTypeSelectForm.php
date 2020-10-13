@@ -25,7 +25,7 @@ namespace pjz9n\mission\form\executor;
 
 use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Dropdown;
-use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\mission\executor\Executors;
@@ -53,7 +53,7 @@ class ExecutorAddTypeSelectForm extends AbstractCustomForm
             LanguageHolder::get()->translateString("executor.edit.add"),
             [
                 new Dropdown("executorType", LanguageHolder::get()->translateString("executor.type"), $options),
-                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                Elements::getCancellToggle(),
             ]
         );
         $this->mission = $mission;

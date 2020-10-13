@@ -25,7 +25,7 @@ namespace pjz9n\mission\form\reward;
 
 use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Dropdown;
-use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\Mission;
 use pjz9n\mission\reward\Reward;
@@ -52,7 +52,7 @@ class RewardAddTypeSelectForm extends AbstractCustomForm
             LanguageHolder::get()->translateString("reward.edit.add"),
             [
                 new Dropdown("rewardType", LanguageHolder::get()->translateString("reward.type"), $options),
-                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                Elements::getCancellToggle(),
             ]
         );
         $this->mission = $mission;

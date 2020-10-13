@@ -26,6 +26,7 @@ use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Input;
 use dktapps\pmforms\element\Label;
 use dktapps\pmforms\element\Toggle;
+use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\Main;
@@ -52,7 +53,7 @@ class SettingMissionCompleteMessageForm extends AbstractCustomForm
                     LanguageHolder::get()->translateString("message"),
                     "",
                     (string)Main::getInstance()->getConfig()->get("missioncomplete-message")),
-                new Toggle("cancel", LanguageHolder::get()->translateString("ui.cancelandback")),
+                Elements::getCancellToggle(),
             ]
         );
     }
