@@ -25,8 +25,8 @@ namespace pjz9n\mission\mineflow\listener;
 
 use aieuo\mineflow\command\MineflowCommand;
 use aieuo\mineflow\utils\Language;
-use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\Main;
+use pjz9n\mission\mineflow\language\MineflowLanguage;
 use pocketmine\event\Listener;
 use pocketmine\event\server\CommandEvent;
 use pocketmine\scheduler\ClosureTask;
@@ -60,7 +60,7 @@ class MineflowLanguageCommandListener implements Listener
                 return;
             }
             Main::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function (int $currentTick): void {
-                LanguageHolder::updateMineflowLanguage();
+                MineflowLanguage::update();
             }), 1);//TODO: fixme If you don't need this 1tick delay stupid way, send a PR :)
         }
     }

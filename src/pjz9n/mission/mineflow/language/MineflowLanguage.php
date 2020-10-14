@@ -21,46 +21,33 @@
 
 declare(strict_types=1);
 
-namespace pjz9n\mission\language;
+namespace pjz9n\mission\mineflow\language;
 
+use aieuo\mineflow\utils\Language;
 use InvalidStateException;
-use pocketmine\lang\BaseLang;
-use pocketmine\Server;
-use pocketmine\utils\Config;
 
-final class LanguageHolder
+final class MineflowLanguage
 {
-    /** @var BaseLang|null */
-    private static $lang = null;
-
     /** @var string */
     private static $localePath;
 
     /** @var string */
     private static $fallbackLanguage;
 
-    /** @var Config */
-    private static $config;
-
-    public static function init(string $localePath, string $fallbackLanguage, Config $config): void
+    public static function init(string $localePath, string $fallbackLanguage): void
     {
         self::$localePath = $localePath;
         self::$fallbackLanguage = $fallbackLanguage;
-        self::$config = $config;
         self::update();
     }
 
     public static function update(): void
     {
-        $language = ($lang = self::getLanguage()) === "default"
-            ? Server::getInstance()->getLanguage()->getLang() : $lang;
-        self::$lang = new BaseLang($language, self::getLocalePath(), self::getFallbackLanguage());
-    }
-
-    public static function get(): BaseLang
-    {
-        if (self::$lang === null) throw new InvalidStateException("Not initialized");
-        return self::$lang;
+        $language = Language::getLanguage();
+        if (!in_array($language, self::getLanguageList(), true)) {
+            $language = self::getFallbackLanguage();
+        }
+        Language::add(parse_ini_file(self::getLocalePath() . $language . ".ini"));
     }
 
     public static function getLocalePath(): string
@@ -75,21 +62,15 @@ final class LanguageHolder
         return self::$fallbackLanguage;
     }
 
-    public static function getLanguage(): string
+    private static function getLanguageList(): array
     {
-        return (string)self::getConfig()->get("language");
-    }
-
-    public static function setLanguage(string $language): void
-    {
-        self::getConfig()->set("language", $language);
-        self::update();
-    }
-
-    private static function getConfig(): Config
-    {
-        if (self::$config === null) throw new InvalidStateException("Not initialized");
-        return self::$config;
+        $list = [];
+        foreach (glob(self::getLocalePath() . "*.ini") as $file) {
+            if (is_file($file)) {
+                $list[] = pathinfo($file)["filename"];
+            }
+        }
+        return $list;
     }
 
     private function __construct()
