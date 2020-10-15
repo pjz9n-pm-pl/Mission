@@ -40,9 +40,7 @@ final class ProgressList implements StaticArraySerializable
      */
     public static function getAll(string $player): array
     {
-        if (!isset(self::$progresses[$player])) {
-            throw new NotFoundException("Progresses for \"{$player}\" not found");
-        }
+        self::sync($player);
         return self::$progresses[$player];
     }
 
@@ -64,6 +62,7 @@ final class ProgressList implements StaticArraySerializable
 
     public static function get(string $player, UUID $missionId): Progress
     {
+        self::sync($player);
         if (!isset(self::$progresses[$player][$missionId->toString()])) {
             throw new NotFoundException("Progress {$missionId->toString()} not found");
         }
@@ -98,7 +97,7 @@ final class ProgressList implements StaticArraySerializable
             }, MissionList::getAll()),
             array_map(function (Progress $progress): UUID {
                 return $progress->getParentMission()->getId();
-            }, self::getAll($player))
+            }, self::$progresses[$player])
         );
         foreach ($needMissionIds as $needMissionId) {
             self::add($player, MissionList::get($needMissionId)->createNewProgress($player));
@@ -107,7 +106,7 @@ final class ProgressList implements StaticArraySerializable
         $excessMissionIds = array_diff(
             array_map(function (Progress $progress): UUID {
                 return $progress->getParentMission()->getId();
-            }, self::getAll($player)),
+            }, self::$progresses[$player]),
             array_map(function (Mission $mission): UUID {
                 return $mission->getId();
             }, MissionList::getAll())
@@ -115,7 +114,7 @@ final class ProgressList implements StaticArraySerializable
         foreach ($excessMissionIds as $excessMissionId) {
             self::remove($player, $excessMissionId);
         }
-        foreach (self::getAll($player) as $progress) {
+        foreach (self::$progresses[$player] as $progress) {
             $progress->checkContradiction();
         }
     }
