@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace pjz9n\mission\language;
 
 use InvalidStateException;
+use pjz9n\mission\mineflow\language\MineflowLanguage;
 use pocketmine\lang\BaseLang;
 use pocketmine\Server;
 use pocketmine\utils\Config;
@@ -55,6 +56,14 @@ final class LanguageHolder
         $language = ($lang = self::getLanguage()) === "default"
             ? Server::getInstance()->getLanguage()->getLang() : $lang;
         self::$lang = new BaseLang($language, self::getLocalePath(), self::getFallbackLanguage());
+    }
+
+    /**
+     * @deprecated
+     */
+    public static function updateMineflowLanguage(): void
+    {
+        MineflowLanguage::update();
     }
 
     public static function get(): BaseLang
