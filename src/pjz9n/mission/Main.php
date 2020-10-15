@@ -52,6 +52,7 @@ use pjz9n\mission\mission\executor\Executors;
 use pjz9n\mission\mission\MissionList;
 use pjz9n\mission\mission\progress\ProgressList;
 use pjz9n\mission\reward\Rewards;
+use pjz9n\mission\util\SoftdependPlugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
@@ -86,16 +87,18 @@ class Main extends PluginBase
     public function onLoad(): void
     {
         self::$instance = $this;
-        //Mineflow
-        Triggers::add(
-            TriggerIds::TRIGGER_MISSION_REWARD,
-            MissionRewardTrigger::create(""),
-            new MissionTriggerForm()
-        );
-        EventTriggerList::add(new MissionCompleteEventTrigger());
-        EventTriggerList::add(new RewardReceiveEventTrigger());
-        Category::addCategory(CategoryIds::MISSION);
-        FlowItemFactory::register(new AddMissionStep());
+        if (SoftdependPlugin::isAvailableMineflow()) {
+            //Mineflow
+            Triggers::add(
+                TriggerIds::TRIGGER_MISSION_REWARD,
+                MissionRewardTrigger::create(""),
+                new MissionTriggerForm()
+            );
+            EventTriggerList::add(new MissionCompleteEventTrigger());
+            EventTriggerList::add(new RewardReceiveEventTrigger());
+            Category::addCategory(CategoryIds::MISSION);
+            FlowItemFactory::register(new AddMissionStep());
+        }
     }
 
     /**
@@ -142,22 +145,24 @@ class Main extends PluginBase
         //Listener
         $this->getServer()->getPluginManager()->registerEvents(new SyncProgressListener(), $this);
         $this->getServer()->getPluginManager()->registerEvents(new SendMessageListener($this->getConfig()), $this);
-        //Mineflow related listener
-        $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
-        $this->getServer()->getPluginManager()->registerEvents(new MineflowLanguageCommandListener(), $this);
         //Command
         $this->getServer()->getCommandMap()->register($this->getName(), new MissionCommand($this));
-        //Mineflow
-        if (!MFMain::getEventManager()->getEventConfig()->exists(MissionCompleteEvent::class)) {
-            //初回
-            MFMain::getEventManager()->setEventEnabled(MissionCompleteEvent::class, true);
+        if (SoftdependPlugin::isAvailableMineflow()) {
+            //Mineflow
+            if (!MFMain::getEventManager()->getEventConfig()->exists(MissionCompleteEvent::class)) {
+                //初回
+                MFMain::getEventManager()->setEventEnabled(MissionCompleteEvent::class, true);
+            }
+            if (!MFMain::getEventManager()->getEventConfig()->exists(RewardReceiveEvent::class)) {
+                //初回
+                MFMain::getEventManager()->setEventEnabled(RewardReceiveEvent::class, true);
+            }
+            $localePath = $this->getFile() . "resources/mineflow/locale/";
+            MineflowLanguage::init($localePath, "jpn");
+            //Mineflow related listener
+            $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
+            $this->getServer()->getPluginManager()->registerEvents(new MineflowLanguageCommandListener(), $this);
         }
-        if (!MFMain::getEventManager()->getEventConfig()->exists(RewardReceiveEvent::class)) {
-            //初回
-            MFMain::getEventManager()->setEventEnabled(RewardReceiveEvent::class, true);
-        }
-        $localePath = $this->getFile() . "resources/mineflow/locale/";
-        MineflowLanguage::init($localePath, "jpn");
 
         self::$isStartCompleted = true;
     }

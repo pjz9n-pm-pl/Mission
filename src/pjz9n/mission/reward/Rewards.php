@@ -25,6 +25,7 @@ namespace pjz9n\mission\reward;
 
 use pjz9n\mission\exception\AlreadyExistsException;
 use pjz9n\mission\exception\NotFoundException;
+use pjz9n\mission\util\SoftdependPlugin;
 use pocketmine\utils\Utils;
 
 final class Rewards
@@ -35,8 +36,10 @@ final class Rewards
     public static function addDefaults(): void
     {
         self::add(ItemReward::class);
-        self::add(MineflowReward::class);
         self::add(NothingReward::class);
+        if (SoftdependPlugin::isAvailableMineflow()) {
+            self::add(MineflowReward::class);
+        }
     }
 
     /**
