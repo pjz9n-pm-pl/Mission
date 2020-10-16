@@ -6,8 +6,7 @@ Select language:
 
 ## Select the plugin language
 
-By default, the PM language is used, but if it is not supported, it will be Japanese.
-
+By default, the PM language (`pocketmine.yml` or `server.properties`) is used, but if it is not supported, it will be Japanese.
 
 1. Open the `config.yml`
 2. Change language setting: `language: <language code>`
