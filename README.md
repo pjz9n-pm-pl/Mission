@@ -4,6 +4,20 @@ Select language:
 [日本語](#日本語)
 [English](#English)
 
+## Select the plugin language
+
+By default, the PM language is used, but if it is not supported, it will be Japanese.
+
+
+1. Open the `config.yml`
+2. Change language setting: `language: <language code>`
+
+A list of available languages can be found in `resources/locale/`
+
+(Remove the .ini extension)
+
+e.g. `resources/locale/eng.ini` => `eng`
+
 ## 日本語
 
 ### 動作例
