@@ -8,8 +8,6 @@ projects:
     libs:
       - src: dktapps-pm-pl/pmforms/pmforms
         version: 1.0.0
-      - src: pjz9n-pm-pl/pmforms-addon/pmforms-addon
-        version: 1.0.0
       - src: CortexPE/Commando/Commando
         version: 2.1.1
 ...

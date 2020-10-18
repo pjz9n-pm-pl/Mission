@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace pjz9n\mission\form\generic;
 
 use pjz9n\mission\language\LanguageHolder;
-use pjz9n\pmformsaddon\AbstractModalForm;
+use pjz9n\mission\pmformsaddon\AbstractModalForm;
 use pocketmine\form\Form;
 use pocketmine\Player;
 

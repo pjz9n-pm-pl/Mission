@@ -28,9 +28,9 @@ use dktapps\pmforms\element\Dropdown;
 use pjz9n\mission\form\Elements;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\Mission;
+use pjz9n\mission\pmformsaddon\AbstractCustomForm;
 use pjz9n\mission\reward\Reward;
 use pjz9n\mission\reward\Rewards;
-use pjz9n\pmformsaddon\AbstractCustomForm;
 use pocketmine\Player;
 
 class RewardAddTypeSelectForm extends AbstractCustomForm

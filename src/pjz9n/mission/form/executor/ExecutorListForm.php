@@ -29,7 +29,7 @@ use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\mission\executor\ExecutorList;
 use pjz9n\mission\mission\Mission;
-use pjz9n\pmformsaddon\AbstractMenuForm;
+use pjz9n\mission\pmformsaddon\AbstractMenuForm;
 use pocketmine\Player;
 use ReflectionException;
 

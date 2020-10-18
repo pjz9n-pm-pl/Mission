@@ -21,35 +21,31 @@
 
 declare(strict_types=1);
 
-namespace pjz9n\mission\form\generic;
+namespace pjz9n\mission\pmformsaddon;
 
-use pjz9n\mission\language\LanguageHolder;
-use pjz9n\mission\pmformsaddon\AbstractModalForm;
-use pocketmine\form\Form;
+use Closure;
+use dktapps\pmforms\CustomFormResponse;
+use dktapps\pmforms\FormIcon;
+use dktapps\pmforms\ServerSettingsForm;
 use pocketmine\Player;
 
-class ErrorForm extends AbstractModalForm
+abstract class AbstractServerSettingsForm extends ServerSettingsForm
 {
-    /** @var Form|null */
-    private $back;
-
-    public function __construct(string $message, ?Form $back = null)
+    public function __construct(string $title, array $elements, ?FormIcon $icon)
     {
         parent::__construct(
-            LanguageHolder::get()->translateString("error"),
-            $message,
-            $back !== null ? LanguageHolder::get()->translateString("ui.back") : LanguageHolder::get()->translateString("ui.close"),
-            LanguageHolder::get()->translateString("ui.close")
+            $title,
+            $elements,
+            $icon,
+            Closure::fromCallable([$this, "onSubmit"]),
+            Closure::fromCallable([$this, "onClose"])
         );
-        $this->back = $back;
     }
 
-    public function onSubmit(Player $player, bool $choice): void
+    public function onClose(Player $player): void
     {
-        if ($this->back !== null) {
-            if ($choice) {
-                $player->sendForm($this->back);
-            }
-        }
+        //
     }
+
+    abstract public function onSubmit(Player $player, CustomFormResponse $response): void;
 }

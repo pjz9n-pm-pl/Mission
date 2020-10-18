@@ -29,9 +29,9 @@ use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\Mission;
+use pjz9n\mission\pmformsaddon\AbstractCustomForm;
 use pjz9n\mission\reward\Reward;
 use pjz9n\mission\util\FormResponseProcessFailedException;
-use pjz9n\pmformsaddon\AbstractCustomForm;
 use pocketmine\Player;
 
 class RewardEditForm extends AbstractCustomForm

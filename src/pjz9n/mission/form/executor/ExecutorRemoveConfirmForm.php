@@ -27,7 +27,7 @@ use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\mission\executor\ExecutorList;
-use pjz9n\pmformsaddon\AbstractModalForm;
+use pjz9n\mission\pmformsaddon\AbstractModalForm;
 use pocketmine\Player;
 use ReflectionException;
 

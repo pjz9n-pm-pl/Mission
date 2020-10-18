@@ -30,7 +30,7 @@ use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\Main;
-use pjz9n\pmformsaddon\AbstractCustomForm;
+use pjz9n\mission\pmformsaddon\AbstractCustomForm;
 use pocketmine\Player;
 
 class SettingMissionCompleteMessageForm extends AbstractCustomForm

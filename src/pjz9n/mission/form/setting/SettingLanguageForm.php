@@ -26,7 +26,7 @@ namespace pjz9n\mission\form\setting;
 use dktapps\pmforms\MenuOption;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
-use pjz9n\pmformsaddon\AbstractMenuForm;
+use pjz9n\mission\pmformsaddon\AbstractMenuForm;
 use pocketmine\lang\BaseLang;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;

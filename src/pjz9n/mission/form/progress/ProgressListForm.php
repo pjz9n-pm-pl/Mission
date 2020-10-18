@@ -28,7 +28,7 @@ use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\progress\Progress;
 use pjz9n\mission\mission\progress\ProgressList;
 use pjz9n\mission\mission\sort\Sorter;
-use pjz9n\pmformsaddon\AbstractMenuForm;
+use pjz9n\mission\pmformsaddon\AbstractMenuForm;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 

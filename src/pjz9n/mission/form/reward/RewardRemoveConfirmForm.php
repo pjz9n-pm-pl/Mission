@@ -26,8 +26,8 @@ namespace pjz9n\mission\form\reward;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\Mission;
+use pjz9n\mission\pmformsaddon\AbstractModalForm;
 use pjz9n\mission\reward\Reward;
-use pjz9n\pmformsaddon\AbstractModalForm;
 use pocketmine\Player;
 
 class RewardRemoveConfirmForm extends AbstractModalForm
