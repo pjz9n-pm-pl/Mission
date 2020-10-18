@@ -21,11 +21,7 @@ e.g. `resources/locale/eng.ini` => `eng`
 
 ### 動作例
 
-![screenshot_20201014_043559](https://user-images.githubusercontent.com/38120936/95907721-f173e980-0dd6-11eb-8431-06a0604f94bb.png)
-
-![screenshot_20201014_043615](https://user-images.githubusercontent.com/38120936/95907726-f2a51680-0dd6-11eb-919e-57c77d82a4e6.png)
-
-![screenshot_20201014_081521](https://user-images.githubusercontent.com/38120936/95926075-54c14400-0df6-11eb-9dbb-2ef5206f958c.png)
+![mission](https://user-images.githubusercontent.com/38120936/96361660-91789c80-1162-11eb-9925-11e67d3056a2.png)
 
 ### コマンド
 
@@ -163,11 +159,7 @@ pjz9n\mission\mission\MissionList
 
 ### Operation example
 
-![screenshot_20201014_081341](https://user-images.githubusercontent.com/38120936/95926122-76223000-0df6-11eb-9ceb-df3c16f0e492.png)
-
-![screenshot_20201014_081406](https://user-images.githubusercontent.com/38120936/95926124-77535d00-0df6-11eb-9035-ce567a7414a8.png)
-
-![screenshot_20201014_081449](https://user-images.githubusercontent.com/38120936/95926126-77ebf380-0df6-11eb-908f-aee93834cd52.png)
+![mission](https://user-images.githubusercontent.com/38120936/96361661-92a9c980-1162-11eb-9130-5f3dea81c203.png)
 
 ### Command
 
