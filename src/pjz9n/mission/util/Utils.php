@@ -29,10 +29,15 @@ use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\reward\Reward;
 use pocketmine\event\Event;
 use pocketmine\event\EventPriority;
+use pocketmine\event\player\PlayerEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils as PMUtils;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionNamedType;
 use Throwable;
 use TypeError;
 
@@ -128,6 +133,22 @@ final class Utils
         return $result;
     }
 
+    /**
+     * @return string[]
+     *
+     * @throws ReflectionException
+     */
+    public static function getAvailablePlayerEvents(): array
+    {
+        $result = [];
+        foreach (self::getAvailableEvents() as $availableEvent) {
+            if (self::hasGetPlayerMethodAndReturnTypeIsPlayer($availableEvent)) {
+                $result[] = $availableEvent;
+            }
+        }
+        return $result;
+    }
+
     public static function eventPriorityToString(int $priority): string
     {
         switch ($priority) {
@@ -145,6 +166,25 @@ final class Utils
                 return "LOWEST";
         }
         return "Unknown";
+    }
+
+    /**
+     * クラスがgetPlayerメソッドを持ち、さらにpocketmine\Playerを返す場合にtrueを返す
+     *
+     * TODO: PMMPのPlayerEventが正常に機能していないせいです、私は知りません
+     *
+     * @throws ReflectionException
+     */
+    public static function hasGetPlayerMethodAndReturnTypeIsPlayer(string $className): bool
+    {
+        if (is_a($className, PlayerEvent::class, true)) {
+            return true;
+        }
+        $reflectionClass = new ReflectionClass($className);
+        return $reflectionClass->hasMethod("getPlayer")
+            && ($method = $reflectionClass->getMethod("getPlayer"))->hasReturnType()
+            && ($type = $method->getReturnType()) instanceof ReflectionNamedType
+            && is_a($type->getName(), Player::class, true);
     }
 
     private function __construct()

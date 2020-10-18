@@ -39,6 +39,7 @@ use pocketmine\event\Event;
 use pocketmine\event\EventPriority;
 use pocketmine\event\HandlerList;
 use pocketmine\event\Listener;
+use pocketmine\Player;
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\Server;
 use pocketmine\utils\UUID;
@@ -65,7 +66,7 @@ class EventExecutor extends Executor implements Listener
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event"),
-                self::availableEventsToOptions(Utils::getAvailableEvents())
+                self::availableEventsToOptions(Utils::getAvailablePlayerEvents())
             ),
             new StepSlider(
                 "eventPriority",
@@ -81,9 +82,12 @@ class EventExecutor extends Executor implements Listener
         ];
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function createByFormResponse(CustomFormResponse $response, Mission $parentMission)
     {
-        $eventClass = array_values(Utils::getAvailableEvents())[$response->getInt("eventClass")];
+        $eventClass = array_values(Utils::getAvailablePlayerEvents())[$response->getInt("eventClass")];
         $eventPriority = EventPriority::ALL[$response->getInt("eventPriority")];
         $ignoreCancelled = $response->getBool("ignoreCancelled");
         return new self($parentMission, $eventClass, $eventPriority, $ignoreCancelled);
@@ -218,12 +222,18 @@ class EventExecutor extends Executor implements Listener
         }
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
+    /**
+     * @throws ReflectionException
+     */
     public function handleEvent(Event $event): void
     {
-        foreach (ProgressList::getAllById($this->getParentMission()->getId()) as $targetProgress) {
-            $targetProgress->addStep();
+        if (!Utils::hasGetPlayerMethodAndReturnTypeIsPlayer(get_class($event))) {
+            return;
         }
+        /** @var Player $player */
+        $player = $event->getPlayer();
+        $progress = ProgressList::get($player->getName(), $this->getParentMission()->getId());
+        $progress->addStep();
     }
 
     /**
@@ -231,7 +241,7 @@ class EventExecutor extends Executor implements Listener
      */
     public function getSettingFormElements(): array
     {
-        $nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailableEvents()) ?? 0;
+        $nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailablePlayerEvents()) ?? 0;
         $nowEventClassForView = "(" . LanguageHolder::get()->translateString("nowvalue") . ": " . $this->getEventClass() . ")";
         return [
             new Label(
@@ -241,7 +251,7 @@ class EventExecutor extends Executor implements Listener
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event") . $nowEventClassForView,
-                self::availableEventsToOptions(Utils::getAvailableEvents()),
+                self::availableEventsToOptions(Utils::getAvailablePlayerEvents()),
                 $nowEventIndex),
             new StepSlider(
                 "eventPriority",
@@ -255,9 +265,12 @@ class EventExecutor extends Executor implements Listener
         ];
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function processSettingFormResponse(CustomFormResponse $response): void
     {
-        $eventClass = array_values(Utils::getAvailableEvents())[$response->getInt("eventClass")];
+        $eventClass = array_values(Utils::getAvailablePlayerEvents())[$response->getInt("eventClass")];
         $eventPriority = EventPriority::ALL[$response->getInt("eventPriority")];
         $ignoreCancelled = $response->getBool("ignoreCancelled");
         $this->setEventClass($eventClass, false);
