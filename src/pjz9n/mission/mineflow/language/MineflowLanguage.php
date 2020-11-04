@@ -38,16 +38,14 @@ final class MineflowLanguage
     {
         self::$localePath = $localePath;
         self::$fallbackLanguage = $fallbackLanguage;
-        self::update();
+
+        foreach (self::getLanguageList() as $language) {
+            Language::add(parse_ini_file(self::getLocalePath() . $language . ".ini"));
+        }
     }
 
     public static function update(): void
     {
-        $language = Language::getLanguage();
-        if (!in_array($language, self::getLanguageList(), true)) {
-            $language = self::getFallbackLanguage();
-        }
-        Language::add(parse_ini_file(self::getLocalePath() . $language . ".ini"));
     }
 
     public static function getLocalePath(): string
