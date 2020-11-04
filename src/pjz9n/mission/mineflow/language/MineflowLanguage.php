@@ -40,7 +40,7 @@ final class MineflowLanguage
         self::$fallbackLanguage = $fallbackLanguage;
 
         foreach (self::getLanguageList() as $language) {
-            Language::add(parse_ini_file(self::getLocalePath() . $language . ".ini"));
+            Language::add(parse_ini_file(self::getLocalePath() . $language . ".ini"), $language);
         }
     }
 
