@@ -40,7 +40,6 @@ use pjz9n\mission\listener\SyncProgressListener;
 use pjz9n\mission\mineflow\category\CategoryIds;
 use pjz9n\mission\mineflow\flowitem\action\AddMissionStep;
 use pjz9n\mission\mineflow\language\MineflowLanguage;
-use pjz9n\mission\mineflow\listener\MineflowLanguageCommandListener;
 use pjz9n\mission\mineflow\listener\ReplaceFormUUID;
 use pjz9n\mission\mineflow\trigger\event\MissionCompleteEventTrigger;
 use pjz9n\mission\mineflow\trigger\event\RewardReceiveEventTrigger;
@@ -161,7 +160,6 @@ class Main extends PluginBase
             MineflowLanguage::init($localePath, "jpn");
             //Mineflow related listener
             $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
-            $this->getServer()->getPluginManager()->registerEvents(new MineflowLanguageCommandListener(), $this);
         }
 
         self::$isStartCompleted = true;
