@@ -117,7 +117,7 @@ class Main extends PluginBase
         ]);
         //Language
         $localePath = $this->getFile() . "resources/locale/";
-        LanguageHolder::init($localePath, "jpn", $this->getConfig());
+        LanguageHolder::init($localePath, "eng", $this->getConfig());
         $this->getLogger()->info(LanguageHolder::get()->translateString("language.selected", [
             LanguageHolder::get()->getName(),
             LanguageHolder::get()->getLang(),
@@ -157,7 +157,7 @@ class Main extends PluginBase
                 MFMain::getEventManager()->setEventEnabled(RewardReceiveEvent::class, true);
             }
             $localePath = $this->getFile() . "resources/mineflow/locale/";
-            MineflowLanguage::init($localePath, "jpn");
+            MineflowLanguage::init($localePath, "eng");
             //Mineflow related listener
             $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
         }
