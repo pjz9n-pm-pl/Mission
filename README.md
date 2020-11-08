@@ -27,7 +27,10 @@ e.g. `resources/locale/eng.ini` => `eng`
 
 | コマンド名 | 説明 | 権限 | エイリアス | プレイヤーのみ |
 | --- | --- | --- | --- | --- |
-| mission | ミッション一覧フォームを開く | mission.command.mission | mi | はい |
+| mission | ミッションを表示する | mission.command.mission | mi | はい |
+
+`mission` コマンドでは、引数に名前、ID、短縮IDを指定することができます。
+引数を指定しなかった場合と指定したミッションが存在しない場合はリストが送信されます。
 
 #### サブコマンド (/mission)
 
@@ -35,6 +38,9 @@ e.g. `resources/locale/eng.ini` => `eng`
 | --- | --- | --- | --- | --- |
 | edit | ミッションを編集する | mission.command.mission.edit | なし | はい |
 | setting | 設定 | mission.command.mission.setting | set, config | はい |
+
+`edit` サブコマンドでは、引数に名前、ID、短縮IDを指定することができます。
+引数を指定しなかった場合と指定したミッションが存在しない場合はリストが送信されます。
 
 ### 権限
 
@@ -165,7 +171,10 @@ pjz9n\mission\mission\MissionList
 
 | command name | description | permission | alias | player only |
 | --- | --- | --- | --- | --- |
-| mission | Open the mission list form | mission.command.mission | mi | Yes |
+| mission | Show mission | mission.command.mission | mi | Yes |
+
+The `mission` command allows you to specify a name, ID, and Short ID as arguments.
+Returns a list if no arguments are specified or the specified mission does not exist.
 
 #### Sub command (/mission)
 
@@ -173,6 +182,9 @@ pjz9n\mission\mission\MissionList
 | --- | --- | --- | --- | --- |
 | edit | Edit mission | mission.command.mission.edit | None | Yes |
 | setting | Settings | mission.command.mission.setting | set, config | Yes |
+
+The `edit` subcommand allows you to specify a name, ID, and Short ID as arguments.
+Returns a list if no arguments are specified or the specified mission does not exist.
 
 ### Permission
 

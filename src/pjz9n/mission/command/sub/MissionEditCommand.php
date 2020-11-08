@@ -23,9 +23,13 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\command\sub;
 
+use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseSubCommand;
+use CortexPE\Commando\exception\ArgumentOrderException;
+use pjz9n\mission\form\mission\MissionActionSelectForm;
 use pjz9n\mission\form\mission\MissionListForm;
 use pjz9n\mission\language\LanguageHolder;
+use pjz9n\mission\mission\MissionList;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
@@ -39,9 +43,13 @@ class MissionEditCommand extends BaseSubCommand
         );
     }
 
+    /**
+     * @throws ArgumentOrderException
+     */
     protected function prepare(): void
     {
         $this->setPermission("mission.command.mission.edit");
+        $this->registerArgument(0, new RawStringArgument("mission", true));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
@@ -49,6 +57,19 @@ class MissionEditCommand extends BaseSubCommand
         if (!($sender instanceof Player)) {
             LanguageHolder::get()->translateString("command.player.only");
             return;
+        }
+        if (isset($args["mission"])) {
+            $missionArgument = $args["mission"];
+            foreach (MissionList::getAll() as $mission) {
+                if (
+                    $mission->getName() === $missionArgument
+                    || $mission->getId()->toString() === $missionArgument
+                    || $mission->getShortId() === $missionArgument
+                ) {
+                    $sender->sendForm(new MissionActionSelectForm($mission));
+                    return;
+                }
+            }
         }
         $sender->sendForm(new MissionListForm());
     }

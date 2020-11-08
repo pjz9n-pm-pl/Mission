@@ -23,12 +23,16 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\command;
 
+use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\exception\ArgumentOrderException;
 use pjz9n\mission\command\sub\MissionEditCommand;
 use pjz9n\mission\command\sub\MissionSettingCommand;
 use pjz9n\mission\form\generic\ErrorForm;
+use pjz9n\mission\form\progress\ProgressDetailForm;
 use pjz9n\mission\form\progress\ProgressListForm;
 use pjz9n\mission\language\LanguageHolder;
+use pjz9n\mission\mission\MissionList;
 use pjz9n\mission\mission\progress\ProgressList;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
@@ -46,11 +50,15 @@ class MissionCommand extends BaseCommand
         );
     }
 
+    /**
+     * @throws ArgumentOrderException
+     */
     protected function prepare(): void
     {
         $this->setPermission("mission.command.mission");
         $this->registerSubCommand(new MissionEditCommand());
         $this->registerSubCommand(new MissionSettingCommand());
+        $this->registerArgument(0, new RawStringArgument("mission", true));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
@@ -58,6 +66,19 @@ class MissionCommand extends BaseCommand
         if (!($sender instanceof Player)) {
             LanguageHolder::get()->translateString("command.player.only");
             return;
+        }
+        if (isset($args["mission"])) {
+            $missionArgument = $args["mission"];
+            foreach (MissionList::getAll() as $mission) {
+                if (
+                    $mission->getName() === $missionArgument
+                    || $mission->getId()->toString() === $missionArgument
+                    || $mission->getShortId() === $missionArgument
+                ) {
+                    $sender->sendForm(new ProgressDetailForm($sender, ProgressList::get($sender->getName(), $mission->getId())));
+                    return;
+                }
+            }
         }
         if (count(ProgressList::getAll($sender->getName())) < 1) {
             $sender->sendForm(new ErrorForm(LanguageHolder::get()->translateString("mission.noavailable")));
