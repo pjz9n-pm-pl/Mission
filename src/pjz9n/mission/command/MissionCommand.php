@@ -68,6 +68,7 @@ class MissionCommand extends BaseCommand
             return;
         }
         if (isset($args["mission"])) {
+            /** @var string $missionArgument This is PHPStan wants */
             $missionArgument = $args["mission"];
             foreach (MissionList::getAll() as $mission) {
                 if (
