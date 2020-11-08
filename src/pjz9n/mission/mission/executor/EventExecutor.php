@@ -90,7 +90,7 @@ class EventExecutor extends Executor implements Listener
         $eventClass = array_values(Utils::getAvailablePlayerEvents())[$response->getInt("eventClass")];
         $eventPriority = EventPriority::ALL[$response->getInt("eventPriority")];
         $ignoreCancelled = $response->getBool("ignoreCancelled");
-        return new self($parentMission, $eventClass, $eventPriority, $ignoreCancelled);
+        return new static($parentMission, $eventClass, $eventPriority, $ignoreCancelled);
     }
 
     public static function arrayDeSerialize(array $data)
