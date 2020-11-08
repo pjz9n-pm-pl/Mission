@@ -182,6 +182,11 @@ final class Mission implements ArraySerializable
         return new Progress($this, $player);
     }
 
+    public function getShortId(): string
+    {
+        return substr($this->getId()->toString(), 0, 8);
+    }
+
     public function arraySerialize(): array
     {
         return [

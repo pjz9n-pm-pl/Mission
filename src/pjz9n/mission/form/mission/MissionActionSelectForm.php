@@ -44,7 +44,9 @@ class MissionActionSelectForm extends AbstractMenuForm
     {
         parent::__construct(
             LanguageHolder::get()->translateString("mission.edit"),
-            LanguageHolder::get()->translateString("mission.name")
+            LanguageHolder::get()->translateString("shortid")
+            . ": " . $mission->getShortId() . TextFormat::EOL
+            . LanguageHolder::get()->translateString("mission.name")
             . ": " . $mission->getName() . TextFormat::EOL
             . LanguageHolder::get()->translateString("mission.detail")
             . ": " . $mission->getDetail() . TextFormat::EOL

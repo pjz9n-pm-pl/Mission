@@ -65,6 +65,8 @@ class ProgressDetailForm extends AbstractMenuForm
         parent::__construct(
             LanguageHolder::get()->translateString("mission.detail"),
             $stateMessage . TextFormat::EOL
+            . LanguageHolder::get()->translateString("shortid")
+            . ": " . $mission->getShortId() . TextFormat::EOL
             . LanguageHolder::get()->translateString("mission.name")
             . ": " . $mission->getName() . TextFormat::EOL
             . LanguageHolder::get()->translateString("detail")
