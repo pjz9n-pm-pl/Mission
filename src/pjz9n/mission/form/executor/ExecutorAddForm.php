@@ -70,6 +70,7 @@ class ExecutorAddForm extends AbstractCustomForm
             $newExecutor = $this->executorType::createByFormResponse($response, $this->mission);
         } catch (FormResponseProcessFailedException $exception) {
             $player->sendForm(new ErrorForm($exception->getMessage(), new self($this->mission, $this->executorType)));
+            return;
         }
         ExecutorList::add($newExecutor);
         $player->sendForm(new MessageForm(LanguageHolder::get()->translateString("executor.edit.add.success"), new ExecutorListForm($this->mission)));
