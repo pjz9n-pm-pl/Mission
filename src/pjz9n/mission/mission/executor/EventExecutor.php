@@ -39,7 +39,7 @@ use pocketmine\event\Event;
 use pocketmine\event\EventPriority;
 use pocketmine\event\HandlerList;
 use pocketmine\event\Listener;
-use pocketmine\Player;
+use pocketmine\event\player\PlayerEvent;
 use pocketmine\plugin\MethodEventExecutor;
 use pocketmine\Server;
 use pocketmine\utils\UUID;
@@ -230,7 +230,7 @@ class EventExecutor extends Executor implements Listener
         if (!Utils::hasGetPlayerMethodAndReturnTypeIsPlayer(get_class($event))) {
             return;
         }
-        /** @var Player $player */
+        /** @var PlayerEvent $event */
         $player = $event->getPlayer();
         $progress = ProgressList::get($player->getName(), $this->getParentMission()->getId());
         $progress->addStep();
