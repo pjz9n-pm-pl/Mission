@@ -44,6 +44,9 @@ final class MineflowLanguage
         }
     }
 
+    /**
+     * @deprecated
+     */
     public static function update(): void
     {
     }
