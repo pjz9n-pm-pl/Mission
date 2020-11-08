@@ -223,6 +223,8 @@ class EventExecutor extends Executor implements Listener
     }
 
     /**
+     * @param PlayerEvent $event For PHPStan
+     *
      * @throws ReflectionException
      */
     public function handleEvent(Event $event): void
@@ -230,7 +232,6 @@ class EventExecutor extends Executor implements Listener
         if (!Utils::hasGetPlayerMethodAndReturnTypeIsPlayer(get_class($event))) {
             return;
         }
-        /** @var PlayerEvent $event */
         $player = $event->getPlayer();
         $progress = ProgressList::get($player->getName(), $this->getParentMission()->getId());
         $progress->addStep();
