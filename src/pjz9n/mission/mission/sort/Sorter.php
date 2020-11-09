@@ -38,6 +38,8 @@ final class Sorter
     /**
      * @param Progress[] $progresses
      * @param int[] $order
+     *
+     * @return Progress[]
      */
     public static function sortProgresses(array $progresses, array $order): array
     {
@@ -50,6 +52,8 @@ final class Sorter
 
     /**
      * @param Progress[] $progresses
+     *
+     * @return Progress[]
      */
     public static function filterProgresses(array $progresses, int $type): array
     {
