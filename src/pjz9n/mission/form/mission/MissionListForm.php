@@ -29,6 +29,7 @@ use pjz9n\mission\mission\Mission;
 use pjz9n\mission\mission\MissionList;
 use pjz9n\mission\pmformsaddon\AbstractMenuForm;
 use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 class MissionListForm extends AbstractMenuForm
 {
@@ -41,7 +42,14 @@ class MissionListForm extends AbstractMenuForm
         $options = [];
         $options[] = new MenuOption(LanguageHolder::get()->translateString("mission.edit.add"));
         foreach ($this->missions as $mission) {
-            $options[] = new MenuOption($mission->getName());
+            $options[] = new MenuOption(
+                "["
+                . LanguageHolder::get()->translateString("group")
+                . ": "
+                . ($mission->getGroup() ?? LanguageHolder::get()->translateString("unspecified"))
+                . "]" . TextFormat::EOL
+                . $mission->getName()
+            );
         }
         parent::__construct(
             LanguageHolder::get()->translateString("mission.list"),

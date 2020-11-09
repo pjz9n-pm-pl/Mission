@@ -13,3 +13,5 @@ permissions:
     default: op
   mission.command.mission.setting:
     default: op
+  mission.command.mission.list:
+    default: true

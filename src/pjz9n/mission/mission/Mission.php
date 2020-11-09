@@ -33,9 +33,16 @@ use pocketmine\utils\UUID;
 
 final class Mission implements ArraySerializable
 {
-    public static function create(string $name, string $detail, int $loopCount, int $targetStep, array $rewards = []): self
+    public static function create(
+        string $name,
+        string $detail,
+        int $loopCount,
+        int $targetStep,
+        array $rewards = [],
+        ?string $group = null
+    ): self
     {
-        return new self(UUID::fromRandom(), $name, $detail, $loopCount, $targetStep, $rewards);
+        return new self(UUID::fromRandom(), $name, $detail, $loopCount, $targetStep, $rewards, $group);
     }
 
     public static function arrayDeSerialize(array $data): self
@@ -49,6 +56,7 @@ final class Mission implements ArraySerializable
             array_map(function (array $serializedReward): Reward {
                 return Reward::arrayDeSerialize($serializedReward);
             }, $data["rewards"]),
+            $data["group"] ?? null
         );
     }
 
@@ -69,6 +77,9 @@ final class Mission implements ArraySerializable
     /** @var UUID */
     private $id;
 
+    /** @var string|null */
+    private $group;
+
     /** @var string */
     private $name;
 
@@ -87,9 +98,18 @@ final class Mission implements ArraySerializable
     /**
      * @param Reward[] $rewards
      */
-    public function __construct(UUID $id, string $name, string $detail, int $loopCount, int $targetStep, array $rewards = [])
+    public function __construct(
+        UUID $id,
+        string $name,
+        string $detail,
+        int $loopCount,
+        int $targetStep,
+        array $rewards = [],
+        ?string $group = null
+    )
     {
         $this->id = $id;
+        $this->group = $group;
         $this->name = $name;
         $this->detail = $detail;
         $this->rewards = array_values($rewards);
@@ -102,6 +122,16 @@ final class Mission implements ArraySerializable
     public function getId(): UUID
     {
         return $this->id;
+    }
+
+    public function getGroup(): ?string
+    {
+        return $this->group;
+    }
+
+    public function setGroup(?string $group): void
+    {
+        $this->group = $group;
     }
 
     public function getName(): string
@@ -191,6 +221,7 @@ final class Mission implements ArraySerializable
     {
         return [
             "id" => $this->id->toString(),
+            "group" => $this->group,
             "name" => $this->name,
             "detail" => $this->detail,
             "rewards" => array_map(function (Reward $reward): array {

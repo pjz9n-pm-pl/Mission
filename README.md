@@ -38,9 +38,13 @@ e.g. `resources/locale/eng.ini` => `eng`
 | --- | --- | --- | --- | --- |
 | edit | ミッションを編集する | mission.command.mission.edit | なし | はい |
 | setting | 設定 | mission.command.mission.setting | set, config | はい |
+| list | ミッションのリストを表示する | mission.command.mission.list | l | はい |
 
 `edit` サブコマンドでは、引数に名前、ID、短縮IDを指定することができます。
 引数を指定しなかった場合と指定したミッションが存在しない場合はリストが送信されます。
+
+`list` サブコマンドでは、引数にグループを指定することができます。
+引数を指定しなかった場合はリストが送信されます。
 
 ### 権限
 
@@ -49,6 +53,7 @@ e.g. `resources/locale/eng.ini` => `eng`
 | mission.command.mission | true 
 | mission.command.mission.edit | op |
 | mission.command.mission.setting | op |
+| mission.command.mission.list | true |
 
 ### 使い方
 
@@ -182,9 +187,13 @@ Returns a list if no arguments are specified or the specified mission does not e
 | --- | --- | --- | --- | --- |
 | edit | Edit mission | mission.command.mission.edit | None | Yes |
 | setting | Settings | mission.command.mission.setting | set, config | Yes |
+| list | Show the missions list | mission.command.mission.list | l | Yes |
 
 The `edit` subcommand allows you to specify a name, ID, and Short ID as arguments.
 Returns a list if no arguments are specified or the specified mission does not exist.
+
+The `list` subcommand allows you to specify a group name as arguments.
+Returns a list if no arguments are specified.
 
 ### Permission
 
@@ -193,6 +202,7 @@ Returns a list if no arguments are specified or the specified mission does not e
 | mission.command.mission | true 
 | mission.command.mission.edit | op |
 | mission.command.mission.setting | op |
+| mission.command.mission.list | true |
 
 ### Usage
 

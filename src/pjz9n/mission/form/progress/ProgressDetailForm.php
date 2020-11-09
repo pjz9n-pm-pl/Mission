@@ -43,7 +43,10 @@ class ProgressDetailForm extends AbstractMenuForm
     /** @var Progress */
     private $progress;
 
-    public function __construct(Player $player, Progress $progress)
+    /** @var string|null */
+    private $group;
+
+    public function __construct(Player $player, Progress $progress, ?string $group = null)
     {
         $mission = $progress->getParentMission();
         if ($progress->canRewardReceive()) {
@@ -67,6 +70,8 @@ class ProgressDetailForm extends AbstractMenuForm
             $stateMessage . TextFormat::EOL
             . LanguageHolder::get()->translateString("shortid")
             . ": " . $mission->getShortId() . TextFormat::EOL
+            . LanguageHolder::get()->translateString("group")
+            . ": " . ($mission->getGroup() ?? LanguageHolder::get()->translateString("unspecified")) . TextFormat::EOL
             . LanguageHolder::get()->translateString("mission.name")
             . ": " . $mission->getName() . TextFormat::EOL
             . LanguageHolder::get()->translateString("detail")
@@ -91,6 +96,7 @@ class ProgressDetailForm extends AbstractMenuForm
         );
         $this->player = $player;
         $this->progress = $progress;
+        $this->group = $group;
     }
 
     /**
@@ -108,10 +114,10 @@ class ProgressDetailForm extends AbstractMenuForm
                 }
                 $message = LanguageHolder::get()->translateString("reward.recipt.success") . TextFormat::EOL
                     . Utils::getRewardsItemizationList($this->progress->getParentMission()->getRewards());
-                $player->sendForm(new MessageForm($message, new ProgressListForm($player)));
+                $player->sendForm(new MessageForm($message, new ProgressListForm($player, $this->group)));
                 break;
             case 1:
-                $player->sendForm(new ProgressListForm($player));
+                $player->sendForm(new ProgressListForm($player, $this->group));
                 break;
         }
     }

@@ -78,6 +78,22 @@ final class Sorter
         return $result;
     }
 
+    /**
+     * @param Progress[] $progresses
+     *
+     * @return Progress[]
+     */
+    public static function filterProgressByGroup(array $progresses, string $group): array
+    {
+        $result = [];
+        foreach ($progresses as $progress) {
+            if ($progress->getParentMission()->getGroup() === $group) {
+                $result[] = $progress;
+            }
+        }
+        return $result;
+    }
+
     private function __construct()
     {
         //

@@ -43,6 +43,7 @@ class MissionAddForm extends AbstractCustomForm
         parent::__construct(
             LanguageHolder::get()->translateString("mission.edit.add"),
             [
+                new Input("group", LanguageHolder::get()->translateString("group"), LanguageHolder::get()->translateString("unspecified")),
                 new Input("name", LanguageHolder::get()->translateString("mission.name")),
                 new Input("detail", LanguageHolder::get()->translateString("mission.detail")),
                 new Input("loopCount", LanguageHolder::get()->translateString("mission.maxachievementcount"), "", "1"),
@@ -58,6 +59,8 @@ class MissionAddForm extends AbstractCustomForm
             $player->sendForm(new MissionListForm());
             return;
         }
+        $group = $response->getString("group");
+        if ($group === "") $group = null;
         $name = $response->getString("name");
         $detail = $response->getString("detail");
         try {
@@ -90,7 +93,7 @@ class MissionAddForm extends AbstractCustomForm
             ]), new self()));
             return;
         }
-        $newMission = Mission::create($name, $detail, $loopCount, $targetStep);
+        $newMission = Mission::create($name, $detail, $loopCount, $targetStep, [], $group);
         MissionList::add($newMission);
         $player->sendForm(new MessageForm(LanguageHolder::get()->translateString("mission.edit.add.success"), new MissionListForm()));
     }

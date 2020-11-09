@@ -37,13 +37,19 @@ class ProgressListForm extends AbstractMenuForm
     /** @var Progress[] */
     private $progresses;
 
-    public function __construct(Player $player)
+    /** @var string|null */
+    private $group;
+
+    public function __construct(Player $player, ?string $group = null)
     {
-        $this->progresses = array_values(Sorter::sortProgresses(ProgressList::getAll($player->getName()), [
+        $this->progresses = array_values(Sorter::sortProgresses($progresses ?? ProgressList::getAll($player->getName()), [
             Sorter::COMPLETED_REWARD_NOT_RECEIVED,
             Sorter::NOT_COMPLETED_REWARD_NOT_RECEIVED,
             Sorter::COMPLETED_REWARD_RECEIVED,
         ]));
+        if ($group !== null) {
+            $this->progresses = Sorter::filterProgressByGroup($this->progresses, $group);
+        }
         $options = [];
         static $prefixes = [
             TextFormat::BOLD . TextFormat::YELLOW . "#" . TextFormat::RESET,
@@ -72,7 +78,10 @@ class ProgressListForm extends AbstractMenuForm
         }
         parent::__construct(
             LanguageHolder::get()->translateString("mission.list"),
-            $prefixes[0] . " - "
+            LanguageHolder::get()->translateString("group")
+            . ": " . ($group ?? LanguageHolder::get()->translateString("unspecified")) . TextFormat::EOL
+            . TextFormat::EOL
+            . $prefixes[0] . " - "
             . LanguageHolder::get()->translateString("reward.can.receive")
             . TextFormat::EOL
             . $prefixes[1] . " - "
@@ -84,11 +93,12 @@ class ProgressListForm extends AbstractMenuForm
             . TextFormat::EOL . LanguageHolder::get()->translateString("mission.pleaseselect"),
             $options
         );
+        $this->group = $group;
     }
 
     public function onSubmit(Player $player, int $selectedOption): void
     {
         $selectedProgress = $this->progresses[$selectedOption];
-        $player->sendForm(new ProgressDetailForm($player, $selectedProgress));
+        $player->sendForm(new ProgressDetailForm($player, $selectedProgress, $this->group));
     }
 }

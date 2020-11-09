@@ -21,33 +21,26 @@
 
 declare(strict_types=1);
 
-namespace pjz9n\mission\command;
+namespace pjz9n\mission\command\sub;
 
 use CortexPE\Commando\args\RawStringArgument;
-use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\BaseSubCommand;
 use CortexPE\Commando\exception\ArgumentOrderException;
-use pjz9n\mission\command\sub\MissionEditCommand;
-use pjz9n\mission\command\sub\MissionListCommand;
-use pjz9n\mission\command\sub\MissionSettingCommand;
 use pjz9n\mission\form\generic\ErrorForm;
-use pjz9n\mission\form\progress\ProgressDetailForm;
 use pjz9n\mission\form\progress\ProgressListForm;
 use pjz9n\mission\language\LanguageHolder;
-use pjz9n\mission\mission\MissionList;
 use pjz9n\mission\mission\progress\ProgressList;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\plugin\Plugin;
 
-class MissionCommand extends BaseCommand
+class MissionListCommand extends BaseSubCommand
 {
-    public function __construct(Plugin $plugin)
+    public function __construct()
     {
         parent::__construct(
-            $plugin,
-            "mission",
-            LanguageHolder::get()->translateString("command.mission.description"),
-            ["mi"]
+            "list",
+            LanguageHolder::get()->translateString("command.mission.list.description"),
+            ["l"]
         );
     }
 
@@ -56,11 +49,8 @@ class MissionCommand extends BaseCommand
      */
     protected function prepare(): void
     {
-        $this->setPermission("mission.command.mission");
-        $this->registerSubCommand(new MissionEditCommand());
-        $this->registerSubCommand(new MissionSettingCommand());
-        $this->registerSubCommand(new MissionListCommand());
-        $this->registerArgument(0, new RawStringArgument("mission", true));
+        $this->setPermission("mission.command.mission.list");
+        $this->registerArgument(0, new RawStringArgument("group", true));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
@@ -69,19 +59,11 @@ class MissionCommand extends BaseCommand
             LanguageHolder::get()->translateString("command.player.only");
             return;
         }
-        if (isset($args["mission"])) {
-            /** @var string $missionArgument This is PHPStan wants */
-            $missionArgument = $args["mission"];
-            foreach (MissionList::getAll() as $mission) {
-                if (
-                    $mission->getName() === $missionArgument
-                    || $mission->getId()->toString() === $missionArgument
-                    || $mission->getShortId() === $missionArgument
-                ) {
-                    $sender->sendForm(new ProgressDetailForm($sender, ProgressList::get($sender->getName(), $mission->getId())));
-                    return;
-                }
-            }
+        if (isset($args["group"])) {
+            /** @var string $groupArgument This is PHPStan wants */
+            $groupArgument = $args["group"];
+            $sender->sendForm(new ProgressListForm($sender, $groupArgument));
+            return;
         }
         if (count(ProgressList::getAll($sender->getName())) < 1) {
             $sender->sendForm(new ErrorForm(LanguageHolder::get()->translateString("mission.noavailable")));

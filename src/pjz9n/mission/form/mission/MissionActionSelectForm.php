@@ -46,6 +46,8 @@ class MissionActionSelectForm extends AbstractMenuForm
             LanguageHolder::get()->translateString("mission.edit"),
             LanguageHolder::get()->translateString("shortid")
             . ": " . $mission->getShortId() . TextFormat::EOL
+            . LanguageHolder::get()->translateString("group")
+            . ": " . ($mission->getGroup() ?? LanguageHolder::get()->translateString("unspecified")) . TextFormat::EOL
             . LanguageHolder::get()->translateString("mission.name")
             . ": " . $mission->getName() . TextFormat::EOL
             . LanguageHolder::get()->translateString("mission.detail")
