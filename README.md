@@ -30,7 +30,7 @@ e.g. `resources/locale/eng.ini` => `eng`
 | mission | ミッションを表示する | mission.command.mission | mi | はい |
 
 `mission` コマンドでは、引数に名前、ID、短縮IDを指定することができます。
-引数を指定しなかった場合と指定したミッションが存在しない場合はリストが送信されます。
+引数を指定しなかった場合と指定したミッションが存在しない場合は全ミッションのリストが送信されます。
 
 #### サブコマンド (/mission)
 
@@ -41,10 +41,10 @@ e.g. `resources/locale/eng.ini` => `eng`
 | list | ミッションのリストを表示する | mission.command.mission.list | l | はい |
 
 `edit` サブコマンドでは、引数に名前、ID、短縮IDを指定することができます。
-引数を指定しなかった場合と指定したミッションが存在しない場合はリストが送信されます。
+引数を指定しなかった場合と指定したミッションが存在しない場合は全ミッションのリストが送信されます。
 
 `list` サブコマンドでは、引数にグループを指定することができます。
-引数を指定しなかった場合はリストが送信されます。
+引数を指定しなかった場合は全ミッションのリストが送信されます。
 
 ### 権限
 
@@ -179,7 +179,7 @@ pjz9n\mission\mission\MissionList
 | mission | Show mission | mission.command.mission | mi | Yes |
 
 The `mission` command allows you to specify a name, ID, and Short ID as arguments.
-Returns a list if no arguments are specified or the specified mission does not exist.
+Returns a all missions list if no arguments are specified or the specified mission does not exist.
 
 #### Sub command (/mission)
 
@@ -190,10 +190,10 @@ Returns a list if no arguments are specified or the specified mission does not e
 | list | Show the missions list | mission.command.mission.list | l | Yes |
 
 The `edit` subcommand allows you to specify a name, ID, and Short ID as arguments.
-Returns a list if no arguments are specified or the specified mission does not exist.
+Returns a all missions list if no arguments are specified or the specified mission does not exist.
 
 The `list` subcommand allows you to specify a group name as arguments.
-Returns a list if no arguments are specified.
+Returns a all missions list if no arguments are specified.
 
 ### Permission
 
