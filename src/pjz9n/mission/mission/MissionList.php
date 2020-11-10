@@ -41,6 +41,21 @@ final class MissionList implements StaticArraySerializable
         return self::$missions;
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAllGroups(): array
+    {
+        $result = [];
+        foreach (self::getAll() as $mission) {
+            if (($group = $mission->getGroup()) !== null) {
+                $result[] = $group;
+            }
+        }
+        $result = array_unique($result);
+        return $result;
+    }
+
     public static function get(UUID $id): Mission
     {
         if (!isset(self::$missions[$id->toString()])) {

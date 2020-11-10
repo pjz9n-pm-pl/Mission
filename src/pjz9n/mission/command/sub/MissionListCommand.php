@@ -27,6 +27,7 @@ use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseSubCommand;
 use CortexPE\Commando\exception\ArgumentOrderException;
 use pjz9n\mission\form\generic\ErrorForm;
+use pjz9n\mission\form\progress\ProgressGroupListForm;
 use pjz9n\mission\form\progress\ProgressListForm;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\progress\ProgressList;
@@ -68,7 +69,7 @@ class MissionListCommand extends BaseSubCommand
         if (count(ProgressList::getAll($sender->getName())) < 1) {
             $sender->sendForm(new ErrorForm(LanguageHolder::get()->translateString("mission.noavailable")));
         } else {
-            $sender->sendForm(new ProgressListForm($sender));
+            $sender->sendForm(new ProgressGroupListForm());
         }
     }
 }
