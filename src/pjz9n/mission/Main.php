@@ -90,7 +90,7 @@ class Main extends PluginBase
             //Mineflow
             Triggers::add(
                 TriggerIds::TRIGGER_MISSION_REWARD,
-                MissionRewardTrigger::create(""),
+                MissionRewardTrigger::class,
                 new MissionTriggerForm()
             );
             EventTriggerList::add(new MissionCompleteEventTrigger());
