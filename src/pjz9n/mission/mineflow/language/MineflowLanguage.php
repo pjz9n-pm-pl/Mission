@@ -25,6 +25,7 @@ namespace pjz9n\mission\mineflow\language;
 
 use aieuo\mineflow\utils\Language;
 use InvalidStateException;
+use pocketmine\lang\BaseLang;
 
 final class MineflowLanguage
 {
@@ -65,13 +66,7 @@ final class MineflowLanguage
 
     private static function getLanguageList(): array
     {
-        $list = [];
-        foreach (glob(self::getLocalePath() . "*.ini") as $file) {
-            if (is_file($file)) {
-                $list[] = pathinfo($file)["filename"];
-            }
-        }
-        return $list;
+        return array_keys(BaseLang::getLanguageList(self::getLocalePath()));
     }
 
     private function __construct()
