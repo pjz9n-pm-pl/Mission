@@ -25,13 +25,13 @@ namespace pjz9n\mission\mineflow\ui;
 
 use aieuo\mineflow\formAPI\CustomForm;
 use aieuo\mineflow\formAPI\element\Button;
-use aieuo\mineflow\formAPI\element\Dropdown;
 use aieuo\mineflow\formAPI\element\CancelToggle;
+use aieuo\mineflow\formAPI\element\Dropdown;
 use aieuo\mineflow\formAPI\ListForm;
 use aieuo\mineflow\recipe\Recipe;
 use aieuo\mineflow\trigger\Trigger;
-use aieuo\mineflow\ui\trigger\BaseTriggerForm;
 use aieuo\mineflow\ui\RecipeForm;
+use aieuo\mineflow\ui\trigger\BaseTriggerForm;
 use aieuo\mineflow\ui\trigger\TriggerForm;
 use aieuo\mineflow\utils\Language;
 use pjz9n\mission\mineflow\trigger\MissionRewardTrigger;
@@ -76,6 +76,10 @@ class MissionTriggerForm extends TriggerForm
             ])->onReceive(function (Player $player, array $data, Recipe $recipe) {
                 if ($data[1]) {
                     (new BaseTriggerForm)->sendSelectTriggerType($player, $recipe);
+                    return;
+                }
+                if (!isset(array_values(MissionList::getAll())[$data[0]])) {
+                    $this->sendSelectMission($player, $recipe, [["@trigger.missionreward.mission.notFound", 0]]);
                     return;
                 }
                 /** @var Mission $selectedMission */
