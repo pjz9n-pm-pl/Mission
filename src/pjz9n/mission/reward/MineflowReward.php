@@ -33,6 +33,8 @@ use pocketmine\utils\UUID;
 
 class MineflowReward extends Reward
 {
+    protected static $unique = true;
+
     public static function getType(): string
     {
         return LanguageHolder::get()->translateString("reward.mineflowreward.type");

@@ -39,11 +39,15 @@ class RewardAddTypeSelectForm extends AbstractCustomForm
     private $mission;
 
     /** @var string[] class string */
-    private $rewardTypes;
+    private $rewardTypes = [];
 
     public function __construct(Mission $mission)
     {
-        $this->rewardTypes = array_values(Rewards::getAll());
+        foreach (Rewards::getAll() as $rewardType) {
+            if (!$rewardType::isUnique() || !$mission->isSameTypeRewardExists($rewardType)) {
+                $this->rewardTypes[] = $rewardType;
+            }
+        }
         $options = array_map(function (string $rewardClass): string {
             /** @var Reward $rewardClass for ide */
             return $rewardClass::getType();

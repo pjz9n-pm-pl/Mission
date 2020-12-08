@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace pjz9n\mission\form\reward;
 
 use dktapps\pmforms\CustomFormResponse;
+use dktapps\pmforms\element\Label;
 use pjz9n\mission\form\Elements;
 use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
@@ -48,9 +49,22 @@ class RewardAddForm extends AbstractCustomForm
         /** @var Reward $rewardType for ide */
         parent::__construct(
             LanguageHolder::get()->translateString("reward.edit.add") . " > " . $rewardType::getType(),
-            array_merge($rewardType::getCreateFormElements(), [
-                Elements::getCancellToggle(),
-            ])
+            array_merge(
+                [
+                    new Label(
+                        "isUnique",
+                        LanguageHolder::get()->translateString("unique")
+                        . ": "
+                        . ($rewardType::isUnique()
+                            ? LanguageHolder::get()->translateString("ui.yes")
+                            : LanguageHolder::get()->translateString("ui.no"))
+                    ),
+                ],
+                $rewardType::getCreateFormElements(),
+                [
+                    Elements::getCancellToggle(),
+                ]
+            )
         );
         $this->mission = $mission;
         $this->rewardType = $rewardType;

@@ -36,10 +36,18 @@ use pocketmine\utils\UUID;
 
 abstract class Reward implements ArraySerializable
 {
+    /** @var bool "Unique" means that you can use up to one in one mission. */
+    protected static $unique = false;
+
     /**
      * 報酬の種類を取得する
      */
     abstract public static function getType(): string;
+
+    public static function isUnique(): bool
+    {
+        return static::$unique;
+    }
 
     /**
      * 作成フォーム用の要素を返す

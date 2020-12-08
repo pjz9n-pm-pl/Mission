@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use pjz9n\mission\exception\AlreadyExistsException;
 use pjz9n\mission\exception\NotFoundException;
 use pjz9n\mission\mission\progress\Progress;
+use pjz9n\mission\reward\exception\AlreadyExistsUniqueRewardException;
 use pjz9n\mission\reward\Reward;
 use pjz9n\mission\util\ArraySerializable;
 use pocketmine\utils\UUID;
@@ -163,13 +164,27 @@ final class Mission implements ArraySerializable
     }
 
     /**
-     * @throws AlreadyExistsException
+     * @param Reward|string $target
+     */
+    public function isSameTypeRewardExists($target): bool
+    {
+        foreach ($this->getRewards() as $reward2) {
+            if (is_a($target, get_class($reward2), true)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throws AlreadyExistsException|AlreadyExistsUniqueRewardException
      */
     public function addReward(Reward $reward): void
     {
-        if (array_search($reward, $this->rewards, true) !== false) {
+        if ($result = array_search($reward, $this->rewards, true) !== false) {
             throw new AlreadyExistsException("Reward already exists");
         }
+        if ($reward::isUnique() && $this->isSameTypeRewardExists($reward)) throw new AlreadyExistsUniqueRewardException();
         $this->rewards[] = $reward;
     }
 
