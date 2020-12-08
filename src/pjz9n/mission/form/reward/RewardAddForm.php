@@ -34,7 +34,6 @@ use pjz9n\mission\pmformsaddon\AbstractCustomForm;
 use pjz9n\mission\reward\Reward;
 use pjz9n\mission\util\FormResponseProcessFailedException;
 use pocketmine\Player;
-use ReflectionException;
 
 class RewardAddForm extends AbstractCustomForm
 {
@@ -57,9 +56,6 @@ class RewardAddForm extends AbstractCustomForm
         $this->rewardType = $rewardType;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function onSubmit(Player $player, CustomFormResponse $response): void
     {
         if ($response->getBool("cancel")) {
