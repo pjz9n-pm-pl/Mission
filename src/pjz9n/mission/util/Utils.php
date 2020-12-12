@@ -23,8 +23,10 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\util;
 
+use ErrorException;
 use InvalidArgumentException;
 use pjz9n\mission\language\LanguageHolder;
+use pjz9n\mission\Main;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\reward\Reward;
 use pocketmine\event\Event;
@@ -33,6 +35,7 @@ use pocketmine\event\player\PlayerEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils as PMUtils;
 use ReflectionClass;
@@ -185,6 +188,57 @@ final class Utils
             && ($method = $reflectionClass->getMethod("getPlayer"))->hasReturnType()
             && ($type = $method->getReturnType()) instanceof ReflectionNamedType
             && is_a($type->getName(), Player::class, true);
+    }
+
+    public static function generateLine(?string $title = null, int $baseCount = 30, string $token = "-"): string
+    {
+        if ($title === null) {
+            return str_repeat($token, $baseCount);
+        }
+        $count = $baseCount - mb_strlen($title);
+        $count -= 2;//Space
+        if ($count < 2) {
+            return $title;
+        }
+        return str_repeat($token, (int)floor($count / 2)) . " " . $title . " " . str_repeat($token, (int)floor($count / 2));
+    }
+
+    /**
+     * @throws InquiryKeyGenerateException
+     */
+    public static function generateInquiryKey(bool $encrypt = true): string
+    {
+        $softName = Server::getInstance()->getName();
+        $pmmpVersion = Server::getInstance()->getPocketMineVersion();
+        $pmmpApiVersion = Server::getInstance()->getApiVersion();
+        $phpVersion = PHP_VERSION;
+        $pluginVersion = Main::getInstance()->getDescription()->getVersion();
+        $os = PMUtils::getOS();
+        $mineflowVersion = ($mineflow = Server::getInstance()->getPluginManager()->getPlugin("Mineflow")) === null
+            ? "None"
+            : $mineflow->getDescription()->getVersion();
+        $data = implode(":", [
+            $softName,
+            $pmmpVersion,
+            $pmmpApiVersion,
+            $phpVersion,
+            $pluginVersion,
+            $os,
+            $mineflowVersion,
+        ]);
+        if (!$encrypt) {
+            return $data;
+        }
+        if (($publicKeyResource = Main::getInstance()->getResource("id_rsa.pub")) === null) {
+            throw new InquiryKeyGenerateException("Cannot find public key");
+        }
+        $publicKey = stream_get_contents($publicKeyResource);
+        try {
+            openssl_public_encrypt($data, $cryptedInquiryKey, $publicKey);
+        } catch (ErrorException $exception) {
+            throw new InquiryKeyGenerateException($exception->getMessage());
+        }
+        return base64_encode($cryptedInquiryKey);
     }
 
     private function __construct()

@@ -39,6 +39,7 @@ e.g. `resources/locale/eng.ini` => `eng`
 | edit | ミッションを編集する | mission.command.mission.edit | なし | はい |
 | setting | 設定 | mission.command.mission.setting | set, config | はい |
 | list | ミッションのリストを表示する | mission.command.mission.list | l | はい |
+| info | プラグインの情報を表示する | mission.command.mission.info | i | いいえ |
 
 `edit` サブコマンドでは、引数に名前、ID、短縮IDを指定することができます。
 引数を指定しなかった場合と指定したミッションが存在しない場合は全ミッションのリストが送信されます。
@@ -54,6 +55,7 @@ e.g. `resources/locale/eng.ini` => `eng`
 | mission.command.mission.edit | op |
 | mission.command.mission.setting | op |
 | mission.command.mission.list | true |
+| mission.command.mission.info | op |
 
 ### 使い方
 
@@ -188,6 +190,7 @@ Returns a all missions list if no arguments are specified or the specified missi
 | edit | Edit mission | mission.command.mission.edit | None | Yes |
 | setting | Settings | mission.command.mission.setting | set, config | Yes |
 | list | Show the missions list | mission.command.mission.list | l | Yes |
+| info | Show plugin information | mission.command.mission.info | i | No |
 
 The `edit` subcommand allows you to specify a name, ID, and Short ID as arguments.
 Returns a all missions list if no arguments are specified or the specified mission does not exist.
@@ -203,6 +206,7 @@ Returns a all missions list if no arguments are specified.
 | mission.command.mission.edit | op |
 | mission.command.mission.setting | op |
 | mission.command.mission.list | true |
+| mission.command.mission.info | op |
 
 ### Usage
 

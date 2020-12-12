@@ -27,6 +27,7 @@ use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseCommand;
 use CortexPE\Commando\exception\ArgumentOrderException;
 use pjz9n\mission\command\sub\MissionEditCommand;
+use pjz9n\mission\command\sub\MissionInfoCommand;
 use pjz9n\mission\command\sub\MissionListCommand;
 use pjz9n\mission\command\sub\MissionSettingCommand;
 use pjz9n\mission\form\generic\ErrorForm;
@@ -60,6 +61,7 @@ class MissionCommand extends BaseCommand
         $this->registerSubCommand(new MissionEditCommand());
         $this->registerSubCommand(new MissionSettingCommand());
         $this->registerSubCommand(new MissionListCommand());
+        $this->registerSubCommand(new MissionInfoCommand());
         $this->registerArgument(0, new RawStringArgument("mission", true));
     }
 
