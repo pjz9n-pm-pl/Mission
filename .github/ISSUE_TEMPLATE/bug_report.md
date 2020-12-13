@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+**If you get an error, be sure to include it in your issue.**
+**It only increases useless conversations.**
+**Write the problem in as much detail as possible. The developers of this software lack reading comprehension;)**
+
+**Stop! when you understand this, remove the top from here.**
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
