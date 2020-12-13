@@ -25,9 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Environments (please complete the following information):**
 1. Run the command in console: `mission info`
-2. Copy and paste the Inquiry key
-
-or
+2. Fill in the required items
 
 - Soft name
 - PMMP version
