@@ -24,7 +24,6 @@ namespace pjz9n\mission\command\sub;
 
 use CortexPE\Commando\BaseSubCommand;
 use pjz9n\mission\language\LanguageHolder;
-use pjz9n\mission\util\InquiryKeyGenerateException;
 use pjz9n\mission\util\Utils;
 use pocketmine\command\CommandSender;
 use pocketmine\Server;
@@ -50,13 +49,6 @@ class MissionInfoCommand extends BaseSubCommand
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         $mineflow = Server::getInstance()->getPluginManager()->getPlugin("Mineflow");
-        try {
-            $key = Utils::generateInquiryKey();
-            $rawKey = Utils::generateInquiryKey(false);
-        } catch (InquiryKeyGenerateException $exception) {
-            $key = LanguageHolder::get()->translateString("error") . ": " . $exception->getMessage();
-            $rawKey = $key;
-        }
         $sender->sendMessage(
             Utils::generateLine(LanguageHolder::get()->translateString("info.this.plugin")) . TextFormat::EOL
             . LanguageHolder::get()->translateString("info.soft.name")
@@ -80,17 +72,6 @@ class MissionInfoCommand extends BaseSubCommand
             . LanguageHolder::get()->translateString("info.mineflow.version")
             . ": "
             . ($mineflow === null ? "None" : $mineflow->getDescription()->getVersion()) . TextFormat::EOL
-            . TextFormat::EOL . LanguageHolder::get()->translateString("info.inquiry.key") . TextFormat::EOL
-            . "----- BEGIN -----"
-            . $key . TextFormat::EOL
-            . "----- END -----" . TextFormat::EOL
-            . LanguageHolder::get()->translateString("info.inquiry.key.detail") . TextFormat::EOL
-            . LanguageHolder::get()->translateString("info.inquiry.key.warning1") . TextFormat::EOL
-            . LanguageHolder::get()->translateString("info.inquiry.key.warning2") . TextFormat::EOL
-            . LanguageHolder::get()->translateString("info.inquiry.key.warning3") . TextFormat::EOL
-            . LanguageHolder::get()->translateString("info.inquiry.key.raw")
-            . ": "
-            . $rawKey . TextFormat::EOL
             . Utils::generateLine() . TextFormat::EOL
         );
     }

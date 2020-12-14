@@ -23,10 +23,8 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\util;
 
-use ErrorException;
 use InvalidArgumentException;
 use pjz9n\mission\language\LanguageHolder;
-use pjz9n\mission\Main;
 use pjz9n\mission\mission\executor\Executor;
 use pjz9n\mission\reward\Reward;
 use pocketmine\event\Event;
@@ -35,7 +33,6 @@ use pocketmine\event\player\PlayerEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils as PMUtils;
 use ReflectionClass;
@@ -205,40 +202,11 @@ final class Utils
 
     /**
      * @throws InquiryKeyGenerateException
+     * @deprecated
      */
     public static function generateInquiryKey(bool $encrypt = true): string
     {
-        $softName = Server::getInstance()->getName();
-        $pmmpVersion = Server::getInstance()->getPocketMineVersion();
-        $pmmpApiVersion = Server::getInstance()->getApiVersion();
-        $phpVersion = PHP_VERSION;
-        $pluginVersion = Main::getInstance()->getDescription()->getVersion();
-        $os = PMUtils::getOS();
-        $mineflowVersion = ($mineflow = Server::getInstance()->getPluginManager()->getPlugin("Mineflow")) === null
-            ? "None"
-            : $mineflow->getDescription()->getVersion();
-        $data = implode(":", [
-            $softName,
-            $pmmpVersion,
-            $pmmpApiVersion,
-            $phpVersion,
-            $pluginVersion,
-            $os,
-            $mineflowVersion,
-        ]);
-        if (!$encrypt) {
-            return $data;
-        }
-        if (($publicKeyResource = Main::getInstance()->getResource("id_rsa.pub")) === null) {
-            throw new InquiryKeyGenerateException("Cannot find public key");
-        }
-        $publicKey = stream_get_contents($publicKeyResource);
-        try {
-            openssl_public_encrypt($data, $cryptedInquiryKey, $publicKey);
-        } catch (ErrorException $exception) {
-            throw new InquiryKeyGenerateException($exception->getMessage());
-        }
-        return base64_encode($cryptedInquiryKey);
+        return "";
     }
 
     private function __construct()
