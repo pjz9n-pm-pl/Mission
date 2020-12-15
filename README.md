@@ -1,5 +1,8 @@
 # Mission
 
+[![](https://poggit.pmmp.io/shield.state/Mission)](https://poggit.pmmp.io/p/Mission)
+[![](https://poggit.pmmp.io/shield.dl.total/Mission)](https://poggit.pmmp.io/p/Mission)
+
 Select language:
 [日本語](#日本語)
 [English](#English)
