@@ -167,7 +167,7 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
 
     public function parseFromFormData(array $data): array
     {
-        /** @var Mission $selectedMission */
+        /** @var Mission|null $selectedMission */
         $selectedMission = array_values(MissionList::getAll())[$data[2]] ?? null;//TODO: この段階でエラーを出す(実装方法不明)
         $selectedMissionUuid = $selectedMission !== null ? $selectedMission->getId() : UUID::fromRandom();
         return ["contents" => [$data[1], $selectedMissionUuid->toString(), $data[3]], "cancel" => $data[4]];
