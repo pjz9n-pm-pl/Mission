@@ -43,6 +43,7 @@ class ProgressListForm extends AbstractMenuForm
     public function __construct(Player $player, ?string $group = null)
     {
         $this->progresses = array_values(Sorter::sortProgresses($progresses ?? ProgressList::getAll($player->getName()), [
+            Sorter::PINNED,
             Sorter::COMPLETED_REWARD_NOT_RECEIVED,
             Sorter::NOT_COMPLETED_REWARD_NOT_RECEIVED,
             Sorter::COMPLETED_REWARD_RECEIVED,
@@ -67,7 +68,7 @@ class ProgressListForm extends AbstractMenuForm
             }
             $prefix .= " ";
             $options[] = new MenuOption(
-                $prefix . $mission->getName() . TextFormat::EOL
+                ($progress->isPinned() ? TextFormat::GREEN . "★" . TextFormat::RESET . " " : "") . $prefix . $mission->getName() . TextFormat::EOL
                 . "{$progress->getCurrentStep()}/{$mission->getTargetStep()} ({$progress->getProgressPercent()}％) "
                 . LanguageHolder::get()->translateString("reward.recipt.count")
                 . ": "
@@ -80,6 +81,10 @@ class ProgressListForm extends AbstractMenuForm
             LanguageHolder::get()->translateString("mission.list"),
             LanguageHolder::get()->translateString("group")
             . ": " . ($group ?? LanguageHolder::get()->translateString("unspecified")) . TextFormat::EOL
+            . TextFormat::EOL
+            . TextFormat::GREEN . "★" . TextFormat::RESET . " - "
+            . LanguageHolder::get()->translateString("mission.pinned")
+            . TextFormat::EOL
             . TextFormat::EOL
             . $prefixes[0] . " - "
             . LanguageHolder::get()->translateString("reward.can.receive")

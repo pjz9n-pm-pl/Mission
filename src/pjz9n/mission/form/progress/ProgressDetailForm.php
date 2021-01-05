@@ -27,6 +27,7 @@ use dktapps\pmforms\MenuOption;
 use pjz9n\mission\form\generic\ErrorForm;
 use pjz9n\mission\form\generic\MessageForm;
 use pjz9n\mission\language\LanguageHolder;
+use pjz9n\mission\mission\progress\exception\PinnedAlreadyExistsException;
 use pjz9n\mission\mission\progress\Progress;
 use pjz9n\mission\pmformsaddon\AbstractMenuForm;
 use pjz9n\mission\reward\exception\FailedProcessRewardException;
@@ -68,6 +69,8 @@ class ProgressDetailForm extends AbstractMenuForm
         parent::__construct(
             LanguageHolder::get()->translateString("mission.detail"),
             $stateMessage . TextFormat::EOL
+            . LanguageHolder::get()->translateString("pin")
+            . ": " . LanguageHolder::get()->translateString($progress->isPinned() ? "ui.yes" : "ui.no") . TextFormat::EOL
             . LanguageHolder::get()->translateString("shortid")
             . ": " . $mission->getShortId() . TextFormat::EOL
             . LanguageHolder::get()->translateString("group")
@@ -91,6 +94,11 @@ class ProgressDetailForm extends AbstractMenuForm
             . Utils::getRewardsItemizationList($mission->getRewards()) . TextFormat::EOL,
             [
                 new MenuOption(TextFormat::DARK_GRAY . LanguageHolder::get()->translateString("reward.recipt")),
+                new MenuOption(
+                    $progress->isPinned()
+                        ? LanguageHolder::get()->translateString("mission.unpin")
+                        : LanguageHolder::get()->translateString("mission.pin")
+                ),
                 new MenuOption(LanguageHolder::get()->translateString("ui.back")),
             ]
         );
@@ -117,6 +125,21 @@ class ProgressDetailForm extends AbstractMenuForm
                 $player->sendForm(new MessageForm($message, new ProgressListForm($player, $this->group)));
                 break;
             case 1:
+                try {
+                    $this->progress->setPinned(!$this->progress->isPinned());
+                } catch (PinnedAlreadyExistsException $exception) {
+                    $player->sendForm(new ErrorForm(
+                        LanguageHolder::get()->translateString("error.mission.pin.already"),
+                        new self($this->player, $this->progress, $this->group)
+                    ));
+                    return;
+                }
+                $player->sendForm(new MessageForm(
+                    LanguageHolder::get()->translateString($this->progress->isPinned() ? "mission.pin.success" : "mission.unpin.success"),
+                    new self($this->player, $this->progress, $this->group)
+                ));
+                break;
+            case 2:
                 $player->sendForm(new ProgressListForm($player, $this->group));
                 break;
         }

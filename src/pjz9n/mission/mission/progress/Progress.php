@@ -29,8 +29,10 @@ use pjz9n\mission\event\RewardReceiveEvent;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\Mission;
 use pjz9n\mission\mission\MissionList;
+use pjz9n\mission\mission\progress\exception\PinnedAlreadyExistsException;
 use pjz9n\mission\reward\exception\FailedProcessRewardException;
 use pjz9n\mission\util\ArraySerializable;
+use pjz9n\mission\util\Utils;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\UUID;
@@ -46,7 +48,8 @@ final class Progress implements ArraySerializable
             $data["player"],
             $data["rewardReceived"],
             $data["currentLoopCount"],
-            $data["currentStep"]
+            $data["currentStep"],
+            $data["pinned"] ?? false,
         );
     }
 
@@ -65,13 +68,17 @@ final class Progress implements ArraySerializable
     /** @var int */
     private $currentStep;
 
-    public function __construct(Mission $parentMission, string $player, bool $rewardReceived = false, int $currentLoopCount = 0, int $currentStep = 0)
+    /** @var bool */
+    private $pinned;
+
+    public function __construct(Mission $parentMission, string $player, bool $rewardReceived = false, int $currentLoopCount = 0, int $currentStep = 0, bool $pinned = false)
     {
         $this->parentMission = $parentMission;
         $this->player = $player;
         $this->rewardReceived = $rewardReceived;
         $this->currentLoopCount = $currentLoopCount;
         $this->currentStep = $currentStep;
+        $this->pinned = $pinned;
     }
 
     public function getParentMission(): Mission
@@ -136,6 +143,22 @@ final class Progress implements ArraySerializable
         }
         $this->setCurrentStep($addedStep);
         $this->checkCompleted();
+    }
+
+    public function isPinned(): bool
+    {
+        return $this->pinned;
+    }
+
+    /**
+     * @throws PinnedAlreadyExistsException
+     */
+    public function setPinned(bool $pinned): void
+    {
+        if ($pinned && Utils::isContainPinned(ProgressList::getAll($this->player))) {
+            throw new PinnedAlreadyExistsException();
+        }
+        $this->pinned = $pinned;
     }
 
     public function isCompleted(): bool
@@ -223,6 +246,7 @@ final class Progress implements ArraySerializable
             "rewardReceived" => $this->rewardReceived,
             "currentLoopCount" => $this->currentLoopCount,
             "currentStep" => $this->currentStep,
+            "pinned" => $this->pinned,
         ];
     }
 

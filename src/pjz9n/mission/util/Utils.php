@@ -26,6 +26,7 @@ namespace pjz9n\mission\util;
 use InvalidArgumentException;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\mission\executor\Executor;
+use pjz9n\mission\mission\progress\Progress;
 use pjz9n\mission\reward\Reward;
 use pocketmine\event\Event;
 use pocketmine\event\EventPriority;
@@ -207,6 +208,19 @@ final class Utils
     public static function generateInquiryKey(bool $encrypt = true): string
     {
         return "";
+    }
+
+    /**
+     * @param Progress[] $progresses
+     */
+    public static function isContainPinned(array $progresses): bool
+    {
+        foreach ($progresses as $progress) {
+            if ($progress->isPinned()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function __construct()

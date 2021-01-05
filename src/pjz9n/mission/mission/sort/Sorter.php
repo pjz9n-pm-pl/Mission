@@ -35,6 +35,8 @@ final class Sorter
 
     public const NOT_COMPLETED_REWARD_RECEIVED = 3;
 
+    public const PINNED = 4;
+
     /**
      * @param Progress[] $progresses
      * @param int[] $order
@@ -60,6 +62,9 @@ final class Sorter
         $result = [];
         foreach ($progresses as $progress) {
             switch ($type) {
+                case self::PINNED:
+                    if ($progress->isPinned()) $result[] = $progress;
+                    break;
                 case self::COMPLETED_REWARD_NOT_RECEIVED:
                     if ($progress->isCompleted() && !$progress->isRewardReceived()) $result[] = $progress;
                     break;
@@ -72,7 +77,6 @@ final class Sorter
                 case self::NOT_COMPLETED_REWARD_RECEIVED:
                     if (!$progress->isCompleted() && $progress->isRewardReceived()) $result[] = $progress;
                     break;
-
             }
         }
         return $result;
