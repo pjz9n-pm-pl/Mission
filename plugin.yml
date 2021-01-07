@@ -5,6 +5,7 @@ api: 3.4.0
 
 softdepend:
   - Mineflow
+  - ScoreHud
 
 permissions:
   mission.command.mission:
