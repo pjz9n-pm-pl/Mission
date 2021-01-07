@@ -53,6 +53,7 @@ use pjz9n\mission\mission\progress\ProgressList;
 use pjz9n\mission\reward\Rewards;
 use pjz9n\mission\util\SoftdependPlugin;
 use pocketmine\plugin\PluginBase;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 
 class Main extends PluginBase
@@ -160,6 +161,17 @@ class Main extends PluginBase
             MineflowLanguage::init($localePath, "eng");
             //Mineflow related listener
             $this->getServer()->getPluginManager()->registerEvents(new ReplaceFormUUID(), $this);
+        }
+        //ScoreHud Addon
+        if (SoftdependPlugin::isAvailableScoreHud()) {
+            $scoreHudPlugin = Server::getInstance()->getPluginManager()->getPlugin("ScoreHud");
+            if (version_compare($scoreHudPlugin->getDescription()->getVersion(), "5.0.0") <= 0) {
+                file_put_contents(
+                    $this->getDataFolder() . "../ScoreHud/addons/MissionAddon.php",
+                    stream_get_contents($this->getResource("scorehud/addon/MissionAddon.php"))
+                );
+                $this->getLogger()->info(LanguageHolder::get()->translateString("scorehud.addon.enabled"));
+            }
         }
 
         self::$isStartCompleted = true;

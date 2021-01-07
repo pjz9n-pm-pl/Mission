@@ -69,6 +69,16 @@ final class ProgressList implements StaticArraySerializable
         return self::$progresses[$player][$missionId->toString()];
     }
 
+    public static function getPinned(string $player): ?Progress
+    {
+        foreach (self::getAll($player) as $progress) {
+            if ($progress->isPinned()) {
+                return $progress;
+            }
+        }
+        return null;
+    }
+
     public static function add(string $player, Progress $progress): void
     {
         if (isset(self::$progresses[$player][$progress->getParentMission()->getId()->toString()])) {

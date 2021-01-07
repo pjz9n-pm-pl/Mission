@@ -32,6 +32,11 @@ final class SoftdependPlugin
         return Server::getInstance()->getPluginManager()->getPlugin("Mineflow") !== null;
     }
 
+    public static function isAvailableScoreHud(): bool
+    {
+        return Server::getInstance()->getPluginManager()->getPlugin("ScoreHud") !== null;
+    }
+
     private function __construct()
     {
         //
