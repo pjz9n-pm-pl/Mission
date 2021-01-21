@@ -41,7 +41,7 @@ class MissionRewardTrigger extends Trigger
         parent::__construct(TriggerIds::TRIGGER_MISSION_REWARD, $key, $subKey);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         try {
             $missionName = MissionList::get(UUID::fromString($this->getKey()))->getName();
