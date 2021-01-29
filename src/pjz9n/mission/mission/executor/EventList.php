@@ -25,6 +25,7 @@ namespace pjz9n\mission\mission\executor;
 
 use aieuo\mineflow\event\EntityAttackEvent;
 use Closure;
+use pjz9n\mission\exception\AlreadyExistsException;
 use pjz9n\mission\util\Utils;
 use pocketmine\event\Event;
 use pocketmine\Player;
@@ -41,11 +42,7 @@ final class EventList
      */
     public static function addDefaults(): void
     {
-        foreach (Utils::getAvailablePlayerEvents() as $event) {
-            self::addEvent($event, function (Event $event): ?Player {
-                return $event->getPlayer();
-            });
-        }
+        self::syncDefaults();
         self::addEvent(EntityAttackEvent::class, function (Event $event): ?Player {
             /** @var EntityAttackEvent $event */
             $damager = $event->getDamageEvent()->getDamager();
@@ -53,18 +50,38 @@ final class EventList
         });
     }
 
+    /**
+     * @throws ReflectionException
+     */
+    public static function syncDefaults(): void
+    {
+        try {
+            foreach (Utils::getAvailablePlayerEvents() as $event) {
+                self::addEvent($event, function (Event $event): ?Player {
+                    return $event->getPlayer();
+                });
+            }
+        } catch (AlreadyExistsException $exception) {
+        }
+    }
+
     public static function addEvent(string $event, Closure $closure): void
     {
         PMUtils::validateCallableSignature(function (Event $event): ?Player {
         }, $closure);
+        if (isset(self::$events[$event])) {
+            throw new AlreadyExistsException();
+        }
         self::$events[$event] = $closure;
     }
 
     /**
      * @return string[]
+     * @throws ReflectionException
      */
     public static function getEvents(): array
     {
+        self::syncDefaults();
         return array_keys(self::$events);
     }
 
