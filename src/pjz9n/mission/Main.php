@@ -46,6 +46,7 @@ use pjz9n\mission\mineflow\trigger\event\RewardReceiveEventTrigger;
 use pjz9n\mission\mineflow\trigger\MissionRewardTrigger;
 use pjz9n\mission\mineflow\trigger\TriggerIds;
 use pjz9n\mission\mineflow\ui\MissionTriggerForm;
+use pjz9n\mission\mission\executor\EventList;
 use pjz9n\mission\mission\executor\ExecutorList;
 use pjz9n\mission\mission\executor\Executors;
 use pjz9n\mission\mission\MissionList;
@@ -55,6 +56,7 @@ use pjz9n\mission\util\SoftdependPlugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use ReflectionException;
 
 class Main extends PluginBase
 {
@@ -103,6 +105,7 @@ class Main extends PluginBase
 
     /**
      * @throws HookAlreadyRegistered
+     * @throws ReflectionException
      */
     public function onEnable(): void
     {
@@ -139,6 +142,7 @@ class Main extends PluginBase
         ProgressList::initFromArray($this->progressesConfig->getAll());
         //Executor
         Executors::addDefaults();
+        EventList::addDefaults();
         $this->executorsConfig = new Config($this->getDataFolder() . "executors.json");
         $this->executorsConfig->setJsonOptions(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         ExecutorList::initFromArray($this->executorsConfig->getAll());

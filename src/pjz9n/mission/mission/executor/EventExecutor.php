@@ -66,7 +66,7 @@ class EventExecutor extends Executor implements Listener
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event"),
-                self::availableEventsToOptions(Utils::getAvailablePlayerEvents())
+                self::availableEventsToOptions(EventList::getEvents())
             ),
             new StepSlider(
                 "eventPriority",
@@ -87,7 +87,7 @@ class EventExecutor extends Executor implements Listener
      */
     public static function createByFormResponse(CustomFormResponse $response, Mission $parentMission)
     {
-        $eventClass = array_values(Utils::getAvailablePlayerEvents())[$response->getInt("eventClass")];
+        $eventClass = array_values(EventList::getEvents())[$response->getInt("eventClass")];
         $eventPriority = EventPriority::ALL[$response->getInt("eventPriority")];
         $ignoreCancelled = $response->getBool("ignoreCancelled");
         /** @var static $self For PHPStan */
@@ -231,10 +231,10 @@ class EventExecutor extends Executor implements Listener
      */
     public function handleEvent(Event $event): void
     {
-        if (!Utils::hasGetPlayerMethodAndReturnTypeIsPlayer(get_class($event))) {
+        $player = EventList::getPlayerByEvent($event);
+        if ($player === null) {
             return;
         }
-        $player = $event->getPlayer();
         $progress = ProgressList::get($player->getName(), $this->getParentMission()->getId());
         $progress->addStep();
     }
@@ -244,7 +244,7 @@ class EventExecutor extends Executor implements Listener
      */
     public function getSettingFormElements(): array
     {
-        $nowEventIndex = self::getIndexByEvent($this->eventClass, Utils::getAvailablePlayerEvents()) ?? 0;
+        $nowEventIndex = self::getIndexByEvent($this->eventClass, EventList::getEvents()) ?? 0;
         $nowEventClassForView = "(" . LanguageHolder::get()->translateString("nowvalue") . ": " . $this->getEventClass() . ")";
         return [
             new Label(
@@ -254,7 +254,7 @@ class EventExecutor extends Executor implements Listener
             new Dropdown(
                 "eventClass",
                 LanguageHolder::get()->translateString("event") . $nowEventClassForView,
-                self::availableEventsToOptions(Utils::getAvailablePlayerEvents()),
+                self::availableEventsToOptions(EventList::getEvents()),
                 $nowEventIndex),
             new StepSlider(
                 "eventPriority",
