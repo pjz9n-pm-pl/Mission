@@ -167,6 +167,20 @@ pjz9n\mission\mission\MissionList
 pjz9n\mission\mission\progress\ProgressList
 ```
 
+#### イベントステップトリガーにイベントを追加する
+
+`PlayerEvent`のインスタンスもしくは`getPlayer`メソッドを持つイベントはデフォルトで追加されています。
+ただし、あなたは`getDamager`メソッドを持つEntityDamageByEntityEvent`イベントを追加したいかもしれません。
+そのような場合にはこれを使います。
+
+```php
+pjz9n\mission\mission\executor\EventList::addEvent(EntityDamageByEntityEvent::class, function (Event $event): ?Player {
+    /** @var EntityDamageByEntityEvent $event */
+    $damager = $event->getDamager();
+    return $damager instanceof Player ? $damager : null;
+});
+```
+
 詳しくはソースコードを参照してください
 
 ※各操作のタイミングは問いません(基本的にはプラグイン有効化タイミングに行うのが望ましい)
@@ -316,6 +330,20 @@ pjz9n\mission\mission\MissionList
 
 ```php
 pjz9n\mission\mission\progress\ProgressList
+```
+
+#### Add event to Event Steptrigger
+
+Instances of `PlayerEvent` or events with` getPlayer` methods are added by default.
+However, you may want to add an `EntityDamageByEntityEvent` event that has a `getDamager` method.
+It can be used in such cases.
+
+```php
+pjz9n\mission\mission\executor\EventList::addEvent(EntityDamageByEntityEvent::class, function (Event $event): ?Player {
+    /** @var EntityDamageByEntityEvent $event */
+    $damager = $event->getDamager();
+    return $damager instanceof Player ? $damager : null;
+});
 ```
 
 See the source code for details
