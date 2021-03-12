@@ -35,18 +35,30 @@ class ReplaceFormUUID implements Listener
         $packet = $event->getPacket();
         if (!($packet instanceof ModalFormRequestPacket)) return;
         $formData = json_decode($packet->formData, true);
-        $formData["title"] = $this->replace($formData["title"]);
+        if (isset($formData["title"])) {
+            $formData["title"] = $this->replace($formData["title"]);
+        }
         switch ($formData["type"]) {
             case "form":
-                $formData["content"] = $this->replace($formData["content"]);
-                foreach ($formData["buttons"] as $key => $button) {
-                    $formData["buttons"][$key]["text"] = $this->replace($button["text"]);
+                if (isset($formData["content"])) {
+                    $formData["content"] = $this->replace($formData["content"]);
+                }
+                if (isset($formData["buttons"])) {
+                    foreach ($formData["buttons"] as $key => $button) {
+                        $formData["buttons"][$key]["text"] = $this->replace($button["text"]);
+                    }
                 }
                 break;
             case "modal":
-                $formData["content"] = $this->replace($formData["content"]);
-                $formData["button1"] = $this->replace($formData["button1"]);
-                $formData["button2"] = $this->replace($formData["button2"]);
+                if (isset($formData["content"])) {
+                    $formData["content"] = $this->replace($formData["content"]);
+                }
+                if (isset($formData["button1"])) {
+                    $formData["button1"] = $this->replace($formData["button1"]);
+                }
+                if (isset($formData["button2"])) {
+                    $formData["button2"] = $this->replace($formData["button2"]);
+                }
                 break;
             case "custom_form":
                 //TODO
