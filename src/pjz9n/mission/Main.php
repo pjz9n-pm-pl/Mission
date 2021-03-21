@@ -23,9 +23,24 @@ declare(strict_types=1);
 
 namespace pjz9n\mission;
 
+use pjz9n\mission\lang\Lang;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 
 class Main extends PluginBase
 {
-    //
+    public function onEnable(): void
+    {
+        //Config
+        new Config($this->getDataFolder() . "config.yml", Config::YAML, [
+            "locale" => "eng",
+        ]);
+        //Locale
+        Lang::init($this->getFile() . "resources/locale/", "eng");
+        Lang::set($this->getConfig()->get("locale"));
+        $this->getLogger()->info(Lang::get()->translateString("language.selected", [
+            Lang::get()->getName(),
+            Lang::get()->getLang(),
+        ]));
+    }
 }
