@@ -29,6 +29,22 @@ use pocketmine\utils\Config;
 
 class Main extends PluginBase
 {
+    /** @var self */
+    private static $instance;
+
+    /**
+     * @internal
+     */
+    public static function getInstance(): self
+    {
+        return self::$instance;
+    }
+
+    public function onLoad(): void
+    {
+        self::$instance = $this;
+    }
+
     public function onEnable(): void
     {
         new Config($this->getDataFolder() . "config.yml", Config::YAML, [
