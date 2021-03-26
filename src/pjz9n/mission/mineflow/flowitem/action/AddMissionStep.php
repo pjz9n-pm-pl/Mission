@@ -27,14 +27,10 @@ use aieuo\mineflow\exception\InvalidFlowValueException;
 use aieuo\mineflow\flowItem\base\PlayerFlowItem;
 use aieuo\mineflow\flowItem\base\PlayerFlowItemTrait;
 use aieuo\mineflow\flowItem\FlowItem;
-use aieuo\mineflow\formAPI\CustomForm;
-use aieuo\mineflow\formAPI\element\CancelToggle;
+use aieuo\mineflow\flowItem\FlowItemExecutor;
 use aieuo\mineflow\formAPI\element\Dropdown;
-use aieuo\mineflow\formAPI\element\Label;
 use aieuo\mineflow\formAPI\element\mineflow\ExampleNumberInput;
 use aieuo\mineflow\formAPI\element\mineflow\PlayerVariableDropdown;
-use aieuo\mineflow\formAPI\Form;
-use aieuo\mineflow\recipe\Recipe;
 use aieuo\mineflow\utils\Language;
 use pjz9n\mission\exception\NotFoundException;
 use pjz9n\mission\mineflow\category\CategoryIds;
@@ -110,12 +106,12 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
         return Language::get($this->detail, [$this->getPlayerVariableName(), $missionName, $this->getStep()]);
     }
 
-    public function execute(Recipe $origin)
+    public function execute(FlowItemExecutor $source): \Generator
     {
         $this->throwIfCannotExecute();
 
-        $missionId = UUID::fromString($origin->replaceVariables($this->getMissionId()->toString()));
-        $step = $origin->replaceVariables((string)$this->getStep());
+        $missionId = UUID::fromString($source->replaceVariables($this->getMissionId()->toString()));
+        $step = $source->replaceVariables((string)$this->getStep());
 
         try {
             MissionList::get($missionId);
@@ -125,7 +121,7 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
 
         $this->throwIfInvalidNumber($step);
         $step = (int)$step;
-        $this->throwIfInvalidPlayer(($player = $this->getPlayer($origin)));
+        $this->throwIfInvalidPlayer(($player = $this->getPlayer($source)));
 
         try {
             $progress = ProgressList::get($player->getName(), $missionId);
@@ -140,10 +136,9 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
         yield true;
     }
 
-    public function getEditForm(array $variables = []): Form
+    public function getEditFormElements(array $variables): array
     {
-        return (new CustomForm($this->getName()))->setContents([
-            new Label($this->getDescription()),
+        return [
             new PlayerVariableDropdown($variables, $this->getPlayerVariableName()),
             new Dropdown(
                 "@action.addMissionStep.form.mission",
@@ -161,16 +156,15 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
                 true,
                 (float)1
             ),
-            new CancelToggle(),
-        ]);
+        ];
     }
 
     public function parseFromFormData(array $data): array
     {
         /** @var Mission|null $selectedMission */
-        $selectedMission = array_values(MissionList::getAll())[$data[2]] ?? null;//TODO: この段階でエラーを出す(実装方法不明)
+        $selectedMission = array_values(MissionList::getAll())[$data[1]] ?? null;//TODO: この段階でエラーを出す(実装方法不明) throw new aieuo\mineflow\exception\InvalidFormValueException
         $selectedMissionUuid = $selectedMission !== null ? $selectedMission->getId() : UUID::fromRandom();
-        return ["contents" => [$data[1], $selectedMissionUuid->toString(), $data[3]], "cancel" => $data[4]];
+        return [$data[0], $selectedMissionUuid->toString(), $data[2]];
     }
 
     public function loadSaveData(array $content): FlowItem

@@ -52,8 +52,8 @@ class RewardReceiveEventTrigger extends EventTrigger
     public function getVariablesDummy(): array
     {
         return [
-            "target" => new DummyVariable("target", DummyVariable::PLAYER),
-            "reward" => new DummyVariable("reward", "reward"),
+            "target" => new DummyVariable(DummyVariable::PLAYER),
+            "reward" => new DummyVariable("reward"),
         ];
     }
 }

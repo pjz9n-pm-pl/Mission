@@ -54,9 +54,9 @@ class MissionCompleteEventTrigger extends EventTrigger
     public function getVariablesDummy(): array
     {
         return [
-            "target" => new DummyVariable("target", DummyVariable::PLAYER),
-            "mission" => new DummyVariable("mission", "mission"),
-            "progress" => new DummyVariable("progress", "progress"),
+            "target" => new DummyVariable(DummyVariable::PLAYER),
+            "mission" => new DummyVariable("mission"),
+            "progress" => new DummyVariable("progress"),
         ];
     }
 }

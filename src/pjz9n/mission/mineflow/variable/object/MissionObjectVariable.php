@@ -33,9 +33,9 @@ use pjz9n\mission\reward\Reward;
 
 class MissionObjectVariable extends ObjectVariable
 {
-    public function __construct(Mission $value, string $name = "", ?string $str = null)
+    public function __construct(Mission $value, ?string $str = null)
     {
-        parent::__construct($value, $name, $str);
+        parent::__construct($value, $str);
     }
 
     public function __toString(): string
@@ -48,19 +48,19 @@ class MissionObjectVariable extends ObjectVariable
         $mission = $this->getMission();
         switch ($index) {
             case "id":
-                return new StringVariable($mission->getId()->toString(), "id");
+                return new StringVariable($mission->getId()->toString());
             case "name":
-                return new StringVariable($mission->getName(), "name");
+                return new StringVariable($mission->getName());
             case "detail":
-                return new StringVariable($mission->getDetail(), "detail");
+                return new StringVariable($mission->getDetail());
             case "rewards":
                 return new ListVariable(array_values(array_map(function (Reward $reward): RewardObjectVariable {
                     return new RewardObjectVariable($reward);
                 }, $mission->getRewards())), "rewards");
             case "loopCount":
-                return new NumberVariable($mission->getLoopCount(), "loopCount");
+                return new NumberVariable($mission->getLoopCount());
             case "targetStep":
-                return new NumberVariable($mission->getTargetStep(), "targetStep");
+                return new NumberVariable($mission->getTargetStep());
         }
         return null;
     }

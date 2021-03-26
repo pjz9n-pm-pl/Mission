@@ -23,17 +23,17 @@ declare(strict_types=1);
 
 namespace pjz9n\mission\mineflow\variable\object;
 
+use aieuo\mineflow\variable\BoolVariable;
 use aieuo\mineflow\variable\NumberVariable;
 use aieuo\mineflow\variable\ObjectVariable;
-use aieuo\mineflow\variable\StringVariable;
 use aieuo\mineflow\variable\Variable;
 use pjz9n\mission\mission\progress\Progress;
 
 class ProgressObjectVariable extends ObjectVariable
 {
-    public function __construct(Progress $value, string $name = "", ?string $str = null)
+    public function __construct(Progress $value, ?string $str = null)
     {
-        parent::__construct($value, $name, $str);
+        parent::__construct($value, $str);
     }
 
     public function getValueFromIndex(string $index): ?Variable
@@ -41,8 +41,7 @@ class ProgressObjectVariable extends ObjectVariable
         $progress = $this->getProgress();
         switch ($index) {
             case "rewardReceived":
-                //TODO: BoolVariable?
-                return new StringVariable($progress->isRewardReceived() ? "true" : "false");
+                return new BoolVariable($progress->isRewardReceived());
             case "currentLoopCount":
                 return new NumberVariable($progress->getCurrentLoopCount());
             case "currentStep":

@@ -30,9 +30,9 @@ use pjz9n\mission\reward\Reward;
 
 class RewardObjectVariable extends ObjectVariable
 {
-    public function __construct(Reward $value, string $name = "", ?string $str = null)
+    public function __construct(Reward $value, ?string $str = null)
     {
-        parent::__construct($value, $name, $str);
+        parent::__construct($value, $str);
     }
 
     public function __toString(): string
@@ -45,7 +45,7 @@ class RewardObjectVariable extends ObjectVariable
         $reward = $this->getReward();
         switch ($index) {
             case "detail":
-                return new StringVariable($reward->getDetail(), "detail");
+                return new StringVariable($reward->getDetail());
         }
         return null;
     }

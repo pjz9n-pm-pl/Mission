@@ -58,6 +58,8 @@ class MineflowReward extends Reward
         $holder = TriggerHolder::getInstance();
         $trigger = MissionRewardTrigger::create($this->getParentMissionId()->toString());
         $recipes = $holder->getRecipes($trigger);
-        $recipes->executeAll($player, $trigger->getVariables($this));
+        if ($recipes !== null) {
+            $recipes->executeAll($player, $trigger->getVariables($this));
+        }
     }
 }
