@@ -96,8 +96,6 @@ class Main extends PluginBase
                 MissionRewardTrigger::class,
                 new MissionTriggerForm()
             );
-            EventTriggerList::add(new MissionCompleteEventTrigger());
-            EventTriggerList::add(new RewardReceiveEventTrigger());
             Category::addCategory(CategoryIds::MISSION);
             FlowItemFactory::register(new AddMissionStep());
         }
@@ -153,14 +151,8 @@ class Main extends PluginBase
         $this->getServer()->getCommandMap()->register($this->getName(), new MissionCommand($this));
         if (SoftdependPlugin::isAvailableMineflow()) {
             //Mineflow
-            if (!MFMain::getEventManager()->getEventConfig()->exists(MissionCompleteEvent::class)) {
-                //初回
-                MFMain::getEventManager()->setEventEnabled(MissionCompleteEvent::class, true);
-            }
-            if (!MFMain::getEventManager()->getEventConfig()->exists(RewardReceiveEvent::class)) {
-                //初回
-                MFMain::getEventManager()->setEventEnabled(RewardReceiveEvent::class, true);
-            }
+            MFMain::getEventManager()->addTrigger(new MissionCompleteEventTrigger(), true);
+            MFMain::getEventManager()->addTrigger(new RewardReceiveEventTrigger(), true);
             $localePath = $this->getFile() . "resources/mineflow/locale/";
             MineflowLanguage::init($localePath, "eng");
             //Mineflow related listener
