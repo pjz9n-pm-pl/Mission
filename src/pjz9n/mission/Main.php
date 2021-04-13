@@ -32,8 +32,6 @@ use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use InvalidStateException;
 use pjz9n\mission\command\MissionCommand;
-use pjz9n\mission\event\MissionCompleteEvent;
-use pjz9n\mission\event\RewardReceiveEvent;
 use pjz9n\mission\language\LanguageHolder;
 use pjz9n\mission\listener\SendMessageListener;
 use pjz9n\mission\listener\SyncProgressListener;
