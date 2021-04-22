@@ -25,7 +25,6 @@ namespace pjz9n\mission\mineflow\language;
 
 use aieuo\mineflow\utils\Language;
 use InvalidStateException;
-use pocketmine\lang\BaseLang;
 
 final class MineflowLanguage
 {
@@ -66,7 +65,7 @@ final class MineflowLanguage
 
     private static function getLanguageList(): array
     {
-        return array_keys(BaseLang::getLanguageList(self::getLocalePath()));
+        return Language::getAvailableLanguages();
     }
 
     private function __construct()
