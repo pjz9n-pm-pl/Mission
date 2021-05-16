@@ -58,13 +58,13 @@ final class EventList
      */
     public static function syncDefaults(): void
     {
-        try {
-            foreach (Utils::getAvailablePlayerEvents() as $event) {
+        foreach (Utils::getAvailablePlayerEvents() as $event) {
+            try {
                 self::addEvent($event, function (Event $event): ?Player {
                     return $event->getPlayer();
                 });
+            } catch (AlreadyExistsException $exception) {
             }
-        } catch (AlreadyExistsException $exception) {
         }
     }
 
