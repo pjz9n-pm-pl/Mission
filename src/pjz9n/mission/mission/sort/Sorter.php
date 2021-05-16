@@ -49,7 +49,8 @@ final class Sorter
         foreach ($order as $type) {
             $result = array_merge($result, self::filterProgresses($progresses, $type));
         }
-        return $result;
+        $result = array_unique($result, SORT_REGULAR);//duplicate if pinned and completed for example
+        return array_values($result);
     }
 
     /**
