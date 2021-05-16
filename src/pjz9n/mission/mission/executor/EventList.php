@@ -26,6 +26,7 @@ namespace pjz9n\mission\mission\executor;
 use aieuo\mineflow\event\EntityAttackEvent;
 use Closure;
 use pjz9n\mission\exception\AlreadyExistsException;
+use pjz9n\mission\util\SoftdependPlugin;
 use pjz9n\mission\util\Utils;
 use pocketmine\event\Event;
 use pocketmine\Player;
@@ -43,11 +44,13 @@ final class EventList
     public static function addDefaults(): void
     {
         self::syncDefaults();
-        self::addEvent(EntityAttackEvent::class, function (Event $event): ?Player {
-            /** @var EntityAttackEvent $event */
-            $damager = $event->getDamageEvent()->getDamager();
-            return $damager instanceof Player ? $damager : null;
-        });
+        if (SoftdependPlugin::isAvailableMineflow()) {
+            self::addEvent(EntityAttackEvent::class, function (Event $event): ?Player {
+                /** @var EntityAttackEvent $event */
+                $damager = $event->getDamageEvent()->getDamager();
+                return $damager instanceof Player ? $damager : null;
+            });
+        }
     }
 
     /**
