@@ -83,6 +83,15 @@ class Main extends PluginBase
     /** @var Config */
     private $executorsConfig;
 
+    /** @var string|null */
+    private $missionsConfigHash = null;
+
+    /** @var string|null */
+    private $progressesConfigHash = null;
+
+    /** @var string|null */
+    private $executorsConfigHash = null;
+
     public function onLoad(): void
     {
         self::$instance = $this;
@@ -128,16 +137,25 @@ class Main extends PluginBase
         //Reward
         Rewards::addDefaults();
         //Mission
+        if (file_exists($this->getDataFolder() . "missions.json")) {
+            $this->missionsConfigHash = sha1_file($this->getDataFolder() . "missions.json");
+        }
         $this->missionsConfig = new Config($this->getDataFolder() . "missions.json");
         $this->missionsConfig->setJsonOptions(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         MissionList::initFromArray($this->missionsConfig->getAll());
         //Progress
+        if (file_exists($this->getDataFolder() . "progresses.json")) {
+            $this->progressesConfigHash = sha1_file($this->getDataFolder() . "progresses.json");
+        }
         $this->progressesConfig = new Config($this->getDataFolder() . "progresses.json");
         $this->progressesConfig->setJsonOptions(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         ProgressList::initFromArray($this->progressesConfig->getAll());
         //Executor
         Executors::addDefaults();
         EventList::addDefaults();
+        if (file_exists($this->getDataFolder() . "executors.json")) {
+            $this->executorsConfigHash = sha1_file($this->getDataFolder() . "executors.json");
+        }
         $this->executorsConfig = new Config($this->getDataFolder() . "executors.json");
         $this->executorsConfig->setJsonOptions(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         ExecutorList::initFromArray($this->executorsConfig->getAll());
@@ -176,14 +194,26 @@ class Main extends PluginBase
             return;
         }
         //Missions
-        $this->missionsConfig->setAll(MissionList::serializeToArray());
-        $this->missionsConfig->save();
+        if ($this->missionsConfigHash !== null && $this->missionsConfigHash !== sha1_file($this->getDataFolder() . "missions.json")) {
+            $this->getLogger()->warning("Data file " . $this->getDataFolder() . "missions.json" . " is changed. The changes have been discarded.");
+        } else {
+            $this->missionsConfig->setAll(MissionList::serializeToArray());
+            $this->missionsConfig->save();
+        }
         //Progresses
-        $this->progressesConfig->setAll(ProgressList::serializeToArray());
-        $this->progressesConfig->save();
+        if ($this->progressesConfigHash !== null && $this->progressesConfigHash !== sha1_file($this->getDataFolder() . "progresses.json")) {
+            $this->getLogger()->warning("Data file " . $this->getDataFolder() . "progresses.json" . " is changed. The changes have been discarded.");
+        } else {
+            $this->progressesConfig->setAll(ProgressList::serializeToArray());
+            $this->progressesConfig->save();
+        }
         //Executors
-        $this->executorsConfig->setAll(ExecutorList::serializeToArray());
-        $this->executorsConfig->save();
+        if ($this->executorsConfigHash !== null && $this->executorsConfigHash !== sha1_file($this->getDataFolder() . "executors.json")) {
+            $this->getLogger()->warning("Data file " . $this->getDataFolder() . "executors.json" . " is changed. The changes have been discarded.");
+        } else {
+            $this->executorsConfig->setAll(ExecutorList::serializeToArray());
+            $this->executorsConfig->save();
+        }
         //Config
         $this->saveConfig();
     }
