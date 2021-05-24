@@ -1,7 +1,7 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/pjz9n-pm-pl/Mission
 build-by-default: true
 branches:
-  - master
+  - issues/40
 projects:
   Mission:
     icon: icon.png
