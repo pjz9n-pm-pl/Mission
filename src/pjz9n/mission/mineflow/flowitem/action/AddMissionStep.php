@@ -44,21 +44,19 @@ class AddMissionStep extends FlowItem implements PlayerFlowItem
 {
     use PlayerFlowItemTrait;
 
-    protected $id = FlowItemIds::ADD_MISSION_STEP;
+    protected string $id = FlowItemIds::ADD_MISSION_STEP;
 
-    protected $name = "action.addMissionStep.name";
+    protected string $name = "action.addMissionStep.name";
 
-    protected $detail = "action.addMissionStep.detail";
+    protected string $detail = "action.addMissionStep.detail";
 
-    protected $detailDefaultReplace = ["player", "mission", "step"];
+    protected array $detailDefaultReplace = ["player", "mission", "step"];
 
-    protected $category = CategoryIds::MISSION;
+    protected string $category = CategoryIds::MISSION;
 
-    /** @var UUID|null */
-    private $missionId;
+    private ?UUID $missionId;
 
-    /** @var int|null */
-    private $step;
+    private ?int $step;
 
     public function __construct(string $player = "", ?UUID $missionId = null, ?int $step = null)
     {

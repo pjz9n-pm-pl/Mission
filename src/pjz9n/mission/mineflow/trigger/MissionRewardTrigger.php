@@ -31,7 +31,7 @@ use pocketmine\utils\UUID;
 
 class MissionRewardTrigger extends Trigger
 {
-    public static function create(string $key, string $subKey = ""): Trigger
+    public static function create(string $key, string $subKey = ""): self
     {
         return new self($key, $subKey);
     }
